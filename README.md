@@ -100,9 +100,7 @@ Para ver a montagem com texturas, abra `cad/montagem/abrir_montagem.FCMacro` no 
 
 ## Créditos
 
-Inspirado no [ped_feeder](https://github.com/arthurmacedo01/ped_feeder) de Arthur Macedo (dose por tempo, página
-web). Este projeto troca a dose por tempo por dose por peso, adiciona balança, medidor de bateria e app mobile, e
-redesenha toda a mecânica — veja as diferenças em [`specs/README.md`](specs/README.md).
+Ideia inicial: [ped_feeder](https://github.com/arthurmacedo01/ped_feeder), de Arthur Macedo.
 
 Desenvolvido como trabalho da disciplina de Sistemas Automatizados.
 
