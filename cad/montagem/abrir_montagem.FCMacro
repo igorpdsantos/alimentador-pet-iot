@@ -1,0 +1,16 @@
+# Abre a montagem detalhada do alimentador v3 e aplica as texturas (nomes dos pinos, furação da protoboard).
+# No FreeCAD: Macro → Macros… → escolher este arquivo → Executar.
+import os
+import sys
+
+import FreeCAD as App
+
+AQUI = os.path.dirname(os.path.abspath(__file__)) if "__file__" in globals() else \
+    os.path.join(App.getUserMacroDir(True))
+SCRIPTS = os.path.join(os.path.dirname(AQUI), "scripts")
+sys.path.insert(0, SCRIPTS)
+import montagem_v3 as m  # noqa: E402
+
+App.openDocument(m.ARQUIVO)
+m.aplicar_texturas()
+m.vista("iso")

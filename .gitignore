@@ -1,0 +1,28 @@
+# Segredos
+firmware/include/secrets.h
+app/.env
+tools/simulador/.env
+*.env.local
+
+# Build / dependências
+firmware/.pio/
+app/node_modules/
+app/.expo/
+tools/**/node_modules/
+__pycache__/
+*.pyc
+
+# FreeCAD
+*.FCBak
+*.FCStd1
+cad/backup/
+
+# Pacotes montados localmente para enviar a quem imprime (o site já oferece o ZIP)
+cad/pacote_impressao_v3/
+cad/pacote_impressao_v3.zip
+
+# Logs e sistema
+*.log
+.DS_Store
+.vscode/
+.idea/

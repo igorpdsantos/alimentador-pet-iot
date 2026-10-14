@@ -1,0 +1,9 @@
+# nome;azimute_graus (0=direita, 90=trás, 180=esquerda, 270=frente);altura desde o fundo do tubo (mm)
+cartucho (piso);30.0;190.5
+cartucho (piso);90.0;190.5
+cartucho (piso);150.0;190.5
+moldura da bica;253.5;202.5
+moldura da bica;286.5;202.5
+pedestal;0.0;7.5
+pedestal;180.0;7.5
+janela da bica;270 (frente);de 140.7 a 199.5;largura 55.6

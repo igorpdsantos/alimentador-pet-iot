@@ -1,0 +1,10 @@
+* text=auto
+*.stl     binary
+*.3mf     binary
+*.step    binary
+*.FCStd   binary
+*.FCMacro text
+*.glb     binary
+*.png     binary
+*.jpg     binary
+*.zip     binary

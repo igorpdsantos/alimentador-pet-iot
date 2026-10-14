@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Alimentador de Pet IoT</title>
+<meta name="description" content="Alimentador automático que dosa ração por peso: rotor dosador, balança de 5 kg e ESP32. Hardware aberto: CAD, peças para imprimir, lista de compras e montagem.">
+<meta name="theme-color" content="#edefeb">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders:opsz,wght@10..72,500..900&family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,500;0,700;1,400&family=Atkinson+Hyperlegible+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='3' fill='%23f2be0f'/%3E%3Crect x='12' y='4' width='8' height='15' fill='%23171b19'/%3E%3Cpath d='M7 21h18l-2.5 7h-13z' fill='%23171b19'/%3E%3C/svg%3E">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script type="module" src="app.js"></script>
+</head>
+<body>
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+<header class="topo">
+  <a class="marca" href="#modelo" aria-label="Início">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="3" class="m-fundo"/><rect x="12" y="4" width="8" height="15" class="m-tinta"/><path d="M7 21h18l-2.5 7h-13z" class="m-tinta"/></svg>
+    <span>Alimentador <b>IoT</b></span>
+  </a>
+  <nav class="menu" aria-label="Seções">
+    <a href="#como">Como funciona</a>
+    <a href="#pecas">Peças</a>
+    <a href="#compras">Compras</a>
+    <a href="#montagem">Montagem</a>
+    <a href="#uso">Uso</a>
+    <a href="#engenharia">Engenharia</a>
+    <a href="#downloads">Downloads</a>
+  </nav>
+  <button class="tema" id="tema" type="button" aria-label="Alternar tema claro/escuro">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+  </button>
+</header>
+
+<main id="conteudo">
+
+<!-- ============================================================ HERO / MODELO 3D -->
+<section class="hero" id="modelo">
+  <div class="hero-texto">
+    <p class="etiqueta">Sistemas Automatizados · hardware aberto</p>
+    <h1>Ração<br>na medida.</h1>
+    <p class="subtitulo">Pesada na balança, não cronometrada.</p>
+    <p class="lead">Um tubo de PVC, um rotor de bolsos e uma célula de carga de 5 kg. O ESP32 gira o rotor até a
+      vasilha marcar os gramas programados no celular. Faça o tour pela máquina ou sirva uma refeição de teste.</p>
+
+    <figure class="plaqueta" aria-label="Plaqueta de identificação">
+      <i class="rebite r1"></i><i class="rebite r2"></i><i class="rebite r3"></i><i class="rebite r4"></i>
+      <figcaption><span>Alimentador IoT</span><span>Mod. V3</span></figcaption>
+      <dl>
+        <div><dt>Alimentação</dt><dd>12 V ⎓ 1 A <small>+ 6×AA</small></dd></div>
+        <div><dt>Dose</dt><dd>5–200 g <small>±3 g</small></dd></div>
+        <div><dt>Reservatório</dt><dd>≥ 1,2 kg</dd></div>
+        <div><dt>Grão</dt><dd>4–22 mm</dd></div>
+        <div><dt>Corpo</dt><dd>PVC DN100 <small>+ 19 peças PETG</small></dd></div>
+        <div><dt>Controle</dt><dd>ESP32 · HX711</dd></div>
+      </dl>
+      <p class="plaqueta-pe">Nº 0001 · 2026 · Brasil</p>
+    </figure>
+
+    <div class="acoes">
+      <button type="button" class="botao primario" id="b-tour-hero">Fazer o tour</button>
+      <a class="botao" href="#pecas">Baixar as peças</a>
+    </div>
+  </div>
+
+  <div class="palco" id="palco" aria-label="Modelo 3D interativo do alimentador">
+    <canvas id="tela"></canvas>
+    <div class="rotulos3d" id="rotulos3d" aria-hidden="true"></div>
+    <div class="cota" aria-hidden="true"><span>640</span></div>
+    <div class="carregando" id="carregando"><span class="barra"><i id="progresso"></i></span><span>Carregando o modelo 3D</span></div>
+    <img class="reserva" id="reserva" src="img/conjunto.png" alt="Render do alimentador montado" hidden>
+
+    <div class="visor" id="visor" aria-live="polite">
+      <div class="lcd">
+        <div class="lcd-topo"><span>Balança</span><span class="lcd-wifi" id="lcd-wifi" title="Wi-Fi da casa"><svg viewBox="0 0 13 11" aria-hidden="true"><path d="M6.5 10.5 4.6 8.4a2.7 2.7 0 0 1 3.8 0Z" fill="currentColor"/><path d="M2.9 6.7a5.1 5.1 0 0 1 7.2 0l-1 1.1a3.6 3.6 0 0 0-5.2 0Z" fill="currentColor"/><path d="M1 4.8a7.8 7.8 0 0 1 11 0l-1 1.1a6.3 6.3 0 0 0-9 0Z" fill="currentColor"/></svg><span id="lcd-wifi-txt">Wi-Fi</span></span><span class="lcd-led" id="lcd-led" aria-hidden="true"></span><span id="lcd-fonte">Tomada</span></div>
+        <div class="lcd-num"><span class="dig"><output id="peso">0,0</output></span><span class="un">g</span></div>
+        <div class="lcd-base"><span>Meta <b id="meta-txt">50 g</b> <span class="pet" title="Cão adulto de 5 kg: ~100 g de ração por dia, em 2 refeições">· cão 5 kg</span></span><span id="estado">Em espera</span></div>
+      </div>
+      <div class="nivel" aria-label="Nível do reservatório">
+        <span class="nivel-tubo"><i id="nivel-barra"></i></span>
+        <span class="nivel-txt"><b id="nivel-g">1,18 kg</b><small id="nivel-pct">97 %</small></span>
+      </div>
+      <ol class="estados" id="estados" aria-hidden="true">
+        <li data-e="PRECHECK">Checa</li><li data-e="DESTRAVA">Destrava</li><li data-e="BASELINE">Tara</li>
+        <li data-e="GIRA">Gira</li><li data-e="ASSENTA">Assenta</li><li data-e="PESA">Pesa</li><li data-e="DONE">Pronto</li>
+      </ol>
+      <p class="recado" id="aviso" role="status" hidden></p>
+    </div>
+
+    <aside class="tour" id="tour" hidden aria-live="polite">
+      <div class="tour-topo"><span class="tour-n" id="tour-n">1 / 11</span><button type="button" class="fechar" id="tour-sair" aria-label="Sair do tour">×</button></div>
+      <h3 id="tour-titulo"></h3>
+      <p id="tour-texto"></p>
+      <div class="tour-acao" id="tour-acao"></div>
+      <div class="tour-nav">
+        <span class="tour-pontos" id="tour-pontos"></span>
+        <div class="teclas"><button type="button" class="tecla" id="tour-ant">←</button><button type="button" class="tecla primaria" id="tour-prox">Próximo →</button></div>
+      </div>
+    </aside>
+
+    <div class="doca" id="doca">
+      <div class="doca-linha">
+        <div class="doca-grupo">
+          <label for="explodir">Explodir</label>
+          <input type="range" id="explodir" min="0" max="100" value="0">
+        </div>
+        <div class="teclas" role="group" aria-label="Vista">
+          <button type="button" class="tecla" id="b-corte" aria-pressed="false">Corte</button>
+          <button type="button" class="tecla" id="b-rotulos" aria-pressed="true">Rótulos</button>
+          <button type="button" class="tecla" id="b-reset">Recentrar</button>
+          <button type="button" class="tecla destaque" id="b-tour">Tour</button>
+        </div>
+      </div>
+      <div class="doca-linha">
+        <div class="teclas" role="group" aria-label="Meta da refeição">
+          <button type="button" class="tecla meta" data-g="25" aria-pressed="false" title="Petisco / meia porção">25 g</button>
+          <button type="button" class="tecla meta" data-g="50" aria-pressed="true" title="Uma refeição (2 por dia)">50 g</button>
+          <button type="button" class="tecla meta" data-g="100" aria-pressed="false" title="A ração do dia inteiro de uma vez">100 g</button>
+          <button type="button" class="botao primario" id="b-servir">Servir</button>
+        </div>
+        <div class="teclas" role="group" aria-label="Simular">
+          <button type="button" class="tecla" id="b-tomada" aria-pressed="true" title="Tirar ou pôr a fonte na tomada">Tomada</button>
+          <button type="button" class="tecla" id="b-wifi" aria-pressed="true" title="Simula a queda do Wi-Fi da casa: o alimentador segue a agenda sozinho">Wi-Fi</button>
+          <button type="button" class="tecla" id="b-semana" title="Duas refeições de 50 g por dia (cão de 5 kg), durante 7 dias">1 semana</button>
+          <button type="button" class="tecla" id="b-encher" title="Encher o tubo e registrar no app">Reabastecer</button>
+        </div>
+      </div>
+    </div>
+
+    <aside class="painel-peca" id="painel-peca" hidden>
+      <button type="button" class="fechar" id="fechar-peca" aria-label="Fechar">×</button>
+      <p class="etiqueta pequena" id="pp-tipo"></p>
+      <h3 id="pp-nome"></h3>
+      <p id="pp-func"></p>
+      <p class="pp-meta" id="pp-meta"></p>
+      <div class="teclas">
+        <button type="button" class="tecla" id="pp-isolar">Isolar</button>
+        <a class="tecla" id="pp-stl" href="#" download>Baixar STL</a>
+      </div>
+    </aside>
+    <p class="dica" id="dica">Arraste para girar · role para zoom · clique numa peça · aperte o botão do pedestal</p>
+  </div>
+</section>
+
+<!-- ============================================================ COMO FUNCIONA -->
+<section class="secao" id="como">
+  <header class="cab">
+    <p class="etiqueta">Malha fechada</p>
+    <h2>O rotor só para quando a balança concorda.</h2>
+    <p>Alimentadores comuns abrem a comporta por um tempo fixo e torcem para a ração cair igual. Aqui o ESP32 gira
+      o rotor em pulsos e pesa entre um pulso e outro. Perto da meta, desacelera e solta grão a grão.</p>
+  </header>
+  <ol class="passos3">
+    <li><span class="n">1</span><h3>Programa</h3><p>Horários e gramas no app. A agenda fica guardada no ESP32 e continua valendo sem internet.</p></li>
+    <li><span class="n">2</span><h3>Libera</h3><p>Servo de 360° gira o rotor de 6 bolsos; a ração desce pela bica até a vasilha.</p></li>
+    <li><span class="n">3</span><h3>Pesa</h3><p>Célula de 5 kg + HX711 de 24 bits. Sem ganho de peso, o rotor recua e tenta de novo; quatro falhas viram alerta.</p></li>
+    <li><span class="n">4</span><h3>Informa</h3><p>Registro da refeição no app: meta, servido, duração. Mais bateria e quanto resta no tubo.</p></li>
+  </ol>
+
+  <div class="sistemas" id="sistemas">
+    <article class="sistema largo">
+      <img src="img/corte.png" alt="Corte do alimentador mostrando o interior" loading="lazy">
+      <div>
+        <p class="etiqueta">Corte</p>
+        <h3>Tudo dentro do tubo</h3>
+        <p>Cartucho dosador no meio, eletrônica em pé numa espinha logo abaixo, pilhas no pedestal. Por fora só ficam o
+          tubo, a bica e a balança.</p>
+        <button type="button" class="link-3d" data-alvo="corte">Ver o corte no 3D</button>
+      </div>
+    </article>
+    <article class="sistema">
+      <img src="img/cartucho.png" alt="Cartucho dosador com rotor e chapéu" loading="lazy">
+      <div>
+        <p class="etiqueta">Dosador</p>
+        <h3>Rotor de bolsos + chapéu</h3>
+        <ul class="specs">
+          <li><b>6</b> bolsos de ~22 mL</li><li>pás rígidas de <b>2,4 mm</b></li><li>chapéu a <b>55°</b> alivia a coluna</li>
+        </ul>
+        <button type="button" class="link-3d" data-alvo="P03_rotor">Ver no 3D</button>
+      </div>
+    </article>
+    <article class="sistema">
+      <img src="img/pedestal.png" alt="Pedestal com a gaveta das pilhas aberta e as patas" loading="lazy">
+      <div>
+        <p class="etiqueta">Base</p>
+        <h3>Gaveta + patas</h3>
+        <ul class="specs">
+          <li>6 × AA de <b>no-break</b></li><li>gaveta presa por <b>4 ímãs</b></li><li>tomba só a <b>27°</b></li>
+        </ul>
+        <button type="button" class="link-3d" data-alvo="P11_gaveta_pilhas">Ver no 3D</button>
+      </div>
+    </article>
+    <article class="sistema">
+      <img src="img/balanca.png" alt="Balança com célula de carga sob a plataforma" loading="lazy">
+      <div>
+        <p class="etiqueta">Balança</p>
+        <h3>Plataforma flutuante</h3>
+        <ul class="specs">
+          <li>célula de <b>5 kg</b></li><li>3 batentes de sobrecarga</li><li>saia esconde tudo</li>
+        </ul>
+        <button type="button" class="link-3d" data-alvo="P08_plataforma">Ver no 3D</button>
+      </div>
+    </article>
+    <article class="sistema">
+      <img src="img/eletronica.png" alt="Protoboard com ESP32, HX711 e fios" loading="lazy">
+      <div>
+        <p class="etiqueta">Eletrônica</p>
+        <h3>34 ligações mapeadas</h3>
+        <ul class="specs">
+          <li>ESP32 DevKit V1</li><li>fonte 12 V → <b>5,0 V</b></li><li>bateria lida pelo ADC</li>
+        </ul>
+        <a class="link-3d" href="#uso">Mapa da protoboard</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============================================================ PEÇAS -->
+<section class="secao" id="pecas">
+  <header class="cab cab-linha">
+    <div>
+      <p class="etiqueta">Impressão 3D · PETG</p>
+      <h2>%%totalG%% g de filamento, peça por peça.</h2>
+      <p>Arquivos já deitados na posição de impressão, sem suporte (só o chapéu pede um pouco). Camada de 0,2 mm,
+        3–4 perímetros, 20 % de preenchimento. Cerca de %%totalH%% h numa impressora rápida.</p>
+    </div>
+    <a class="botao primario" href="arquivos/pecas_para_imprimir.zip" download id="zip-pecas">Baixar todas (ZIP)</a>
+  </header>
+  <div class="filtros teclas" role="group" aria-label="Filtrar peças" id="filtro-pecas">
+    <button type="button" class="tecla" aria-pressed="true" data-f="">Todas</button>
+    <button type="button" class="tecla" data-f="Dosador">Dosador</button>
+    <button type="button" class="tecla" data-f="Estrutura">Estrutura</button>
+    <button type="button" class="tecla" data-f="Balança">Balança</button>
+  </div>
+  <ul class="grade-pecas" id="grade-pecas"></ul>
+</section>
+
+<!-- ============================================================ COMPRAS -->
+<section class="secao" id="compras">
+  <header class="cab cab-linha">
+    <div>
+      <p class="etiqueta">Lista de compras</p>
+      <h2>Tudo o que vai no alimentador.</h2>
+      <p>Marque o que já foi comprado: fica salvo neste navegador. Faixa de preço do projeto inteiro:
+        R$ %%orcFaixa%%, cerca de R$ %%orcMedia%% no preço médio.</p>
+    </div>
+    <div class="progresso" aria-live="polite"><span id="compras-n">0</span>/<span id="compras-t">0</span><small>itens</small>
+      <span class="trilho"><i id="compras-barra"></i></span></div>
+  </header>
+  <div class="filtros teclas" role="group" aria-label="Filtrar itens" id="filtro-bom">
+    <button type="button" class="tecla" aria-pressed="true" data-f="">Tudo</button>
+    <button type="button" class="tecla" data-f="Eletrônica">Eletrônica</button>
+    <button type="button" class="tecla" data-f="Mecânica">Mecânica</button>
+    <button type="button" class="tecla" data-f="Parafusos">Parafusos</button>
+    <button type="button" class="tecla" data-f="Consumíveis">Consumíveis</button>
+    <button type="button" class="tecla" data-f="pendente">Falta comprar</button>
+  </div>
+  <div class="tabela"><table class="bom" id="bom">
+    <thead><tr><th scope="col"><span class="sr">Comprado</span></th><th scope="col">#</th><th scope="col">Item</th>
+      <th scope="col">Especificação</th><th scope="col" class="num">Usa</th><th scope="col" class="num">Comprar</th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+  <h3 class="sub">Especificação completa de cada item</h3>
+  <div class="acordeao" id="bom-det"></div>
+</section>
+
+<!-- ============================================================ MONTAGEM -->
+<section class="secao" id="montagem">
+  <header class="cab">
+    <p class="etiqueta">Passo a passo</p>
+    <h2>Da bancada à primeira refeição.</h2>
+    <p>De 6 a 9 horas de montagem, fora a impressão, em dois ou três encontros. A mecânica e a eletrônica andam em
+      paralelo. Não pule os "Confira": são eles que evitam queimar placa ou desmontar tudo depois.</p>
+  </header>
+  <div class="montagem">
+    <nav class="fases" id="fases" aria-label="Fases da montagem"></nav>
+    <article class="fase" id="fase" tabindex="-1"></article>
+  </div>
+</section>
+
+<!-- ============================================================ USO -->
+<section class="secao" id="uso">
+  <header class="cab">
+    <p class="etiqueta">Manual</p>
+    <h2>Uso, manutenção e problemas.</h2>
+  </header>
+  <div class="duas">
+    <div class="acordeao" id="uso-lista"></div>
+    <div>
+      <h3 class="sub">Ligações da protoboard</h3>
+      <div class="acordeao" id="ligacoes"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ ENGENHARIA -->
+<section class="secao" id="engenharia">
+  <header class="cab">
+    <p class="etiqueta">Por que é assim</p>
+    <h2>Simulamos 2 000 grãos antes de imprimir.</h2>
+    <p>Com o tubo cheio, a coluna de ração aperta o rotor mais do que o servo aguenta. Uma simulação de elementos
+      discretos (cada grão é uma esfera com atrito e rolamento) comparou cinco formas de aliviar essa carga.</p>
+  </header>
+  <div class="estudo">
+    <figure class="grafico" id="grafico">
+      <div class="teclas" role="group" aria-label="Tamanho do grão">
+        <button type="button" class="tecla" aria-pressed="true" data-d="10">Grão 10 mm</button>
+        <button type="button" class="tecla" data-d="20">Grão 20 mm</button>
+      </div>
+      <svg id="grafico-svg" role="img" aria-label="Torque mediano no rotor por variante"></svg>
+      <figcaption>Torque mediano no rotor com o tubo cheio. A linha marca onde o servo trava (1,8 kgf·cm).
+        Ao lado, a ração que sai por volta.</figcaption>
+    </figure>
+    <div class="conclusoes">
+      <p><b>Cone central</b> derruba o torque, mas entope com grão grande: forma um arco na fresta.</p>
+      <p><b>Bloco reto</b> sobre o escudo prensava o grão contra a parede.</p>
+      <p><b>Cumeeira a 45°</b> resolve os dois e ainda esvazia o tubo até o fim: sobram 1,2 g, contra 8,9 g sem chapéu.</p>
+    </div>
+  </div>
+  <h3 class="sub">Decisões de projeto</h3>
+  <ol class="decisoes" id="decisoes"></ol>
+</section>
+
+<!-- ============================================================ DOWNLOADS -->
+<section class="secao" id="downloads">
+  <header class="cab">
+    <p class="etiqueta">Arquivos</p>
+    <h2>Leve o projeto inteiro.</h2>
+  </header>
+  <div class="downloads" id="lista-downloads">
+    <a class="dl-card" href="arquivos/pecas_para_imprimir.zip" download>
+      <span class="dl-tipo">STL + 3MF</span><strong>Peças para imprimir</strong><span>19 arquivos prontos para o fatiador</span><span class="dl-tam" data-arq="pecas_para_imprimir.zip"></span></a>
+    <a class="dl-card" href="arquivos/cad_freecad.zip" download>
+      <span class="dl-tipo">FreeCAD 1.1</span><strong>CAD completo</strong><span>Modelo, montagem com fios e os scripts que geram tudo</span><span class="dl-tam" data-arq="cad_freecad.zip"></span></a>
+    <a class="dl-card" href="arquivos/alimentador_v3.step" download>
+      <span class="dl-tipo">STEP</span><strong>Montagem neutra</strong><span>Abre em Fusion, SolidWorks, Onshape</span><span class="dl-tam" data-arq="alimentador_v3.step"></span></a>
+  </div>
+  <ol class="roteiro">
+    <li class="feito"><b>Mecânica e eletrônica</b><span>CAD, peças, compras e montagem prontos</span></li>
+    <li><b>Firmware ESP32</b><span>dosagem em malha fechada, agenda, histórico</span></li>
+    <li><b>App mobile</b><span>agenda, refeições, consumo e bateria</span></li>
+  </ol>
+</section>
+
+</main>
+
+<footer class="rodape">
+  <span>Alimentador de Pet IoT · Sistemas Automatizados · 2026</span>
+  <span>Código, modelos e documentação: <a href="https://github.com/igorpdsantos/alimentador-pet-iot">github.com/igorpdsantos/alimentador-pet-iot</a></span>
+</footer>
+
+<script type="application/json" id="dados">%%DADOS%%</script>
+</body>
+</html>
