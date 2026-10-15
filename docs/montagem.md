@@ -71,7 +71,7 @@ Perímetro do tubo = 319 mm; **frente** = onde fica a bica (−Y).
 
 ## 4. Impressão
 
-Ordem e configurações: `docs/orcamento.md` §2. Depois de imprimir:
+Ordem e configurações: `docs/orcamento.md` §3. Depois de imprimir:
 - Testar o **giro do rotor** dentro do anel com a mão (P01 + P02 + P03): tem que girar livre nos dois sentidos.
 - Limpar rebarbas dos furos-guia com uma broca de 2,5 mm na mão.
 

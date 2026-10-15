@@ -1,6 +1,6 @@
 # 02 — Hardware (v3)
 
-Lista de compras com preços e medidas: **`docs/orcamento.md`** (teto R$ 371 para o grupo).
+Lista de compras com preços e medidas: **`docs/orcamento.md`** (teto R$ 490 para o grupo).
 Posição física de cada componente: `specs/03-mecanica.md` §5 e §8.
 
 ## 1. Componentes eletrônicos

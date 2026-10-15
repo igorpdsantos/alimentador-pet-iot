@@ -276,14 +276,16 @@ def dados(tam):
             dem[str(d)] = [{"id": k, "nome": n, "torque": round(r[k + "_d%d" % d]["mediana"], 2),
                             "gpv": round(r[k + "_d%d" % d]["gpv"], 1), "trava": round(100 * r[k + "_d%d" % d]["frac_trava"])}
                            for k, n in VARIANTES_DEM if k + "_d%d" % d in r]
-    total_orc = re.search(r"\*\*Total\*\* \| \| \| \*\*~([\d–]+)\*\*", orc)
-    media = re.search(r"faixa\nmédia \(~R\$ (\d+)\)|faixa média \(~R\$ (\d+)\)", orc)
+    def valor_orc(rotulo):                                  # células da seção 2 de docs/orcamento.md
+        m = re.search(r"\| \*\*%s\*\* \|(?:[^|\n]*\|)*? \*\*~?([\d.,]+)\*\*(?: \||\s\()" % re.escape(rotulo), orc)
+        return m.group(1) if m else ""
     fichas = {k: {"nome": v[0], "func": v[1], "mat": v[2]} for k, v in FICHAS.items()}
     gramas = {p_["arq"]: p_["g"] for p_ in pecas}
     return {"pecas": pecas, "bom": bom, "bomDet": det, "fases": fases, "uso": uso, "ligacoes": ligacoes,
             "glb": "modelo/alimentador.min.glb", "decisoes": decisoes, "dem": dem, "fichas": fichas, "gramas": gramas, "tam": tam,
             "totalG": sum(p_["g"] for p_ in pecas), "totalH": round(sum(p_["h"] for p_ in pecas)),
-            "orcFaixa": total_orc.group(1) if total_orc else "", "orcMedia": next((g for g in media.groups() if g), "") if media else ""}
+            "orcCompras": valor_orc("Total das compras"), "orcImpressao": valor_orc("Total (19 peças)"),
+            "orcTotal": valor_orc("Total do projeto")}
 
 
 if __name__ == "__main__":
@@ -299,7 +301,7 @@ if __name__ == "__main__":
     pagina = re.sub(r"(modelo/[\w/.-]+\.glb)", versao, pagina)
     for f in ("estilo.css", "app.js"):                      # versão no link: o navegador nunca usa arquivo velho
         pagina = pagina.replace('"%s"' % f, '"%s?v=%d"' % (f, int(os.path.getmtime(os.path.join(SITE, f)))))
-    for k in ("totalG", "totalH", "orcMedia", "orcFaixa"):
+    for k in ("totalG", "totalH", "orcCompras", "orcImpressao", "orcTotal"):
         pagina = pagina.replace("%%" + k + "%%", str(d[k]))
     open(os.path.join(SITE, "index.html"), "w", encoding="utf-8").write(pagina)
     print("site gerado: %d peças, %d itens de compra, %d fases, %d decisões; %s" % (

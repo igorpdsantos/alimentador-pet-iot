@@ -40,6 +40,6 @@ testes dos dois lados — garante que firmware e app concordam com o contrato.
   mostrar o ganho de usar a balança.
 - **Confiabilidade**: % de refeições `OK` em N refeições agendadas.
 - **Escoamento/travamento**: `NO_FLOW` e tentativas de destravar por tamanho de grão (T-JAM).
-- **Custo**: total gasto × teto de R$ 371 (`docs/orcamento.md`).
+- **Custo**: total gasto × teto de R$ 490 (`docs/orcamento.md`).
 - **Energia**: autonomia medida (h) e consumo médio (mA).
 - **Responsividade**: latência mediana app → servo.

@@ -24,7 +24,7 @@ Fluxo: mudar parâmetro → `gerar_v3.py` (zero "ERRO") → `preparar_visual.sh`
 | Vários pets | — | Vasilha Ø 14–16 cm × até 6 cm; porções de 5 a 300 g (dose por peso) |
 | Tudo coberto | Eletrônica numa caixa grande | Eletrônica **dentro do tubo**, pilhas **dentro do pedestal**, balança **sob a saia** da plataforma |
 | Menos impressão | ~13 peças, caixa de 140 × 140 × 94 | **11 peças**, 603 g |
-| Custo | — | Cabe no teto de R$ 371 (`docs/orcamento.md`) |
+| Custo | — | Cabe no teto de R$ 490 (`docs/orcamento.md`) |
 
 ## 2. Sistema de coordenadas e alturas
 
