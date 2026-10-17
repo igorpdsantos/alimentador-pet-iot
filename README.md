@@ -40,7 +40,7 @@ A agenda fica no ESP32, então as refeições acontecem mesmo sem internet. A en
 | Controle | ESP32 DOIT DevKit V1, Wi-Fi, MQTT com TLS |
 | Dosagem | Malha fechada por peso, com detecção de reservatório vazio/entupido |
 | Energia | Fonte 12 V + 6 × AA (no-break), step-down MP1584 |
-| Custo estimado | ~R$ 450: ~R$ 263 em peças + ~R$ 190 de impressão 3D terceirizada ([orçamento](docs/orcamento.md)) |
+| Custo estimado | ~R$ 460: ~R$ 263 em peças + R$ 199 de impressão 3D terceirizada ([orçamento](docs/orcamento.md)) |
 
 ## Quero montar o meu
 

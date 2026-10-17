@@ -54,7 +54,7 @@ projeto usa 1 ou 2 de cada. Avulso no balcão da Santa Ifigênia sai a centavos.
 Fica de fora: fonte 12 V (reaproveitada), protoboard e jumpers (já temos), vasilha (a do pet), lastro (areia em
 saquinho), fita dupla-face e fio de 4 vias (sobras).
 
-### Mercado Livre (online, frete grátis)
+### Mercado Livre (online, frete grátis) — ⏳ falta comprar
 
 | Item | Anúncio | R$ |
 |---|---|---|
@@ -66,7 +66,7 @@ saquinho), fita dupla-face e fio de 4 vias (sobras).
 | Pés adesivos | [125 un. protetor batente gota de silicone](https://www.mercadolivre.com.br/125-und-protetor-batente-gota-de-silicone-adesivo-multiuso/up/MLBU1484001348) | 29,90 |
 | **Subtotal** | | **151,85** |
 
-### Saravati (loja física) — Rua Vitória, 39, Santa Ifigênia, São Paulo — (11) 4574-3058
+### Saravati (loja física) — Rua Vitória, 39, Santa Ifigênia, São Paulo — (11) 4574-3058 — ✅ comprado
 
 Site: [saravati.com.br](https://www.saravati.com.br) (dá para pedir online e retirar na loja).
 
@@ -77,7 +77,7 @@ Site: [saravati.com.br](https://www.saravati.com.br) (dá para pedir online e re
 | 6 pilhas AA Panasonic (R$ 3,90 cada) | 23,40 |
 | **Subtotal** | **56,20** |
 
-### Mamute Eletrônica (loja física) — Rua Vitória, 125, Santa Ifigênia, São Paulo — (11) 3223-7551 / WhatsApp (11) 91232-6557
+### Mamute Eletrônica (loja física) — Rua Vitória, 125, Santa Ifigênia, São Paulo — (11) 3223-7551 / WhatsApp (11) 91232-6557 — ✅ comprado
 
 Seg–sex 8h30–17h, sáb 8h30–13h30. Site: [mamuteeletronica.com.br](https://www.mamuteeletronica.com.br) (pedido online com
 retirada grátis).
@@ -95,7 +95,7 @@ retirada grátis).
 | [Jack P4 de painel DC-022](https://www.mamuteeletronica.com.br/conector-jack-j4-dc-022-painel-21mm-x-55mm-16265) | 2,20 |
 | **Subtotal** | **43,40** |
 
-### Parafusos e ferragem (lojas físicas)
+### Parafusos e ferragem (lojas físicas) — ⏳ falta comprar
 
 **Dallanese** — Rua Joaquim Machado, 203, Lapa, São Paulo — (11) 3864-6241 — retira no balcão.
 Site: [dallanese.com.br](https://www.dallanese.com.br/8288/pf-mm-panela-phillips-inox304) (inox 304, vende por unidade).
@@ -117,6 +117,13 @@ que não publicam preço — pedir orçamento no balcão.
 [Cap Tigre 100 mm](https://www.leroymerlin.com.br/cap-pvc-para-esgoto-100mm-ou-4-tigre_85227856) a R$ 11,90 (tinha
 estoque em 14/10/2026). Só compensa se alguém passar por lá; senão, fica o do Mercado Livre.
 
+### Andamento (17/10/2026)
+
+- ✅ Santa Ifigênia (Saravati + Mamute): comprado.
+- ⏳ Mercado Livre: falta comprar os 6 itens.
+- ⏳ Parafusos e abraçadeiras: falta comprar (o da célula, M4 ou M5, só depois de ver a rosca).
+- ✅ Impressão 3D: preço fechado em R$ 199,00.
+
 ### Total
 
 | Onde | R$ |
@@ -126,8 +133,8 @@ estoque em 14/10/2026). Só compensa se alguém passar por lá; senão, fica o d
 | Mamute | 43,40 |
 | Parafusos e ferragem | ~11 |
 | **Total das compras** | **~263** |
-| Impressão 3D terceirizada (seção 3) | ~188,50 |
-| **Total do projeto** | **~451** (≈ R$ 56 por pessoa) — folga de ~R$ 39 no teto de R$ 490 |
+| Impressão 3D terceirizada (seção 3, preço fechado) | 199,00 |
+| **Total do projeto** | **~461** (≈ R$ 58 por pessoa) — folga de ~R$ 29 no teto de R$ 490 |
 
 Alternativas vistas e descartadas: Eletrogate (online, BH) tem célula, servo MG90D 360°, protoboard, jumpers e suporte
 chato baratos, mas o frete (~R$ 13) come a diferença e o MP1584 está esgotado; nas lojas da Santa Ifigênia o suporte de
@@ -138,7 +145,8 @@ chato baratos, mas o frete (~R$ 13) come a diferença e o MP1584 está esgotado;
 **A impressão é terceirizada:** o grupo paga por peça e o filamento é do impressor, então o PETG não entra nas compras.
 ### Orçamento do impressor
 
-Valores com ~ são estimativa dele (P03 e P11 ainda sem fatiamento final).
+**Preço fechado: R$ 199,00** pelas 19 peças, já em PETG (o impressor não cobrou o acréscimo de tempo da troca de
+filamento para PETG). A tabela é o orçamento inicial dele, por peça; valores com ~ eram estimativa.
 
 | Peça | Filamento | Tempo | Preço (R$) |
 |---|---|---|---|
@@ -155,7 +163,8 @@ Valores com ~ são estimativa dele (P03 e P11 ainda sem fatiamento final).
 | P11 gaveta das pilhas | 31,2 g | 50 min | ~9,50 |
 | P12 patas (4) | 92,9 g | 3h07 | 29,00 |
 | P13 tampas (4) | 41,8 g | 1h19 | 13,50 |
-| **Total (19 peças)** | **~610 g** | **~19,5 h** | **~188,50** |
+| Soma do orçamento inicial | ~610 g | ~19,5 h | ~188,50 |
+| **Total (19 peças)** | | | **199,00** |
 
 ### Estimativa própria (para conferência)
 

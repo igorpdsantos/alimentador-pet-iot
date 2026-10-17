@@ -44,7 +44,7 @@ Documentação para o grupo (em `docs/`): [componentes.md](../docs/componentes.m
 | D8 | **PVC esgoto série normal DN100** (DE 101,6 × 1,8 mm), tubo de **640 mm**, 1 cap (só em cima) | Fácil de achar, barato. Comprimento definido pelo requisito de **≥ 1,2 kg** de ração leve (D17) |
 | D9 | ~~Superfície 45° + luva com agitador em U + caixa de eletrônica (v2)~~ → substituída pela v3 (D13) | v2 fica como histórico |
 | D10 | Peças em **PETG** | Calor, fluência e contato com ração |
-| D12 | **Teto de R$ 490** (≈ R$ 61 × 8 pessoas) para tudo, inclusive a impressão 3D terceirizada (era R$ 371; antes R$ 320). Compras avulsas, cada item onde sai mais barato | `docs/orcamento.md` §2: ~R$ 263 em compras + ~R$ 188,50 do impressor = ~R$ 451 (revisto em 14/10/2026) |
+| D12 | **Teto de R$ 490** (≈ R$ 61 × 8 pessoas) para tudo, inclusive a impressão 3D terceirizada (era R$ 371; antes R$ 320). Compras avulsas, cada item onde sai mais barato | `docs/orcamento.md` §2: ~R$ 263 em compras + R$ 199 do impressor = ~R$ 461 (revisto em 17/10/2026) |
 | D13 | **v3: rotor de 6 bolsos com pás curvas (rígidas, D15) + servo MG90S 360°** (SG90 360° descartado: torque insuficiente com o tubo cheio, D15), eletrônica dentro do tubo, pilhas no pedestal, balança sob saia | À prova de travamento/entupimento, grãos 4–22 mm, tudo coberto, 13 tipos de peça (19 arquivos) / 773 g com chapéu, gaveta e patas (03-mecanica) |
 | D14 | Step-down MP1584 no lugar do buck-boost | Entrada sempre ≥ 6,5 V (fonte 12 V ou pilhas); mais barato e menor |
 | D15 | **Chapéu P10 sobre o rotor + pás rígidas de 2,4 mm** (eram 1 mm flexíveis) | Pás de 1 mm podiam trincar por fadiga e soltar lasca na ração; sem alívio, o tubo cheio pedia ~2,9 kgf·cm (servo trava em 1,8). Estudo DEM em 03-mecanica §3.1 |
