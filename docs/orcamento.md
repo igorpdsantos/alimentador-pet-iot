@@ -58,13 +58,13 @@ saquinho), fita dupla-face e fio de 4 vias (sobras).
 
 | Item | Anúncio | R$ |
 |---|---|---|
-| ESP32 DevKit 30 pinos | [Placa Esp32 Wrom Wifi Bluetooth Pinos Soldados](https://www.mercadolivre.com.br/placa-esp32-wrom-wifi-bluetooth-pinos-soldados/p/MLB2048573048) (Full) | 39,99 |
+| ESP32 DevKit 30 pinos | [Esp32 Wifi Bluetooth Doit Devkit Com Esp32-wroom-32](https://www.mercadolivre.com.br/esp32-wifi-bluetooth--doit-devkit-com-esp32wroom32/up/MLBU2867882022) (30 pinos, USB CH9102X: pode pedir driver da WCH) | 35,28 |
 | Suporte 6×AA chato | [Suporte 6 Pilhas Aa Canoa Com Plug P4](https://www.mercadolivre.com.br/suporte-6-pilhas-aa-canoa-com-plug-p4-p-arduino/up/MLBU1454247359) (6 lado a lado; cortar o plugue) | 19,00 |
-| Tubo PVC DN100 | [Tubo Cano Pvc Esgoto 100mm 1,5 m Fortlev](https://www.mercadolivre.com.br/tubo-cano-pvc-esgoto-100mm--15-metro-fortlev/up/MLBU4170876556) | 24,46 |
+| Tubo PVC DN100 | [Tubo Cano Pvc Esgoto 100mm 1,5 m Fortlev](https://www.mercadolivre.com.br/tubo-cano-pvc-esgoto-100mm-15-metro-fortlev/p/MLB68322197) | 24,46 + 4,99 de frete |
 | Cap DN100 | [Cap Esgoto Tigre 100mm](https://www.mercadolivre.com.br/cap-esgoto-tigre-100mm/p/MLB2063455787) — ou na loja física da Leroy (abaixo) | 19,00 |
-| Ímãs 6 × 2 mm | [kit 10x Imã Neodímio 6x2mm N35](https://www.mercadolivre.com.br/kit-10x-ima-neodimio-6x2mm-super-forte-n35/p/MLB34090422) | 19,50 |
+| Ímãs 6 × 2 mm | [kit 10x Imã Neodímio 6x2mm N35](https://www.mercadolivre.com.br/kit-10x-ima-neodimio-6x2mm-super-forte-n35/p/MLB34090422) | 12,99 + 7,99 de frete |
 | Pés adesivos | [125 un. protetor batente gota de silicone](https://www.mercadolivre.com.br/125-und-protetor-batente-gota-de-silicone-adesivo-multiuso/up/MLBU1484001348) | 29,90 |
-| **Subtotal** | | **151,85** |
+| **Total no carrinho (17/10/2026, com frete)** | | **152,05** |
 
 ### Saravati (loja física) — Rua Vitória, 39, Santa Ifigênia, São Paulo — (11) 4574-3058 — ✅ comprado
 
@@ -120,7 +120,7 @@ estoque em 14/10/2026). Só compensa se alguém passar por lá; senão, fica o d
 ### Andamento (17/10/2026)
 
 - ✅ Santa Ifigênia (Saravati + Mamute): comprado.
-- ⏳ Mercado Livre: falta comprar os 6 itens.
+- ⏳ Mercado Livre: os 6 itens estão no carrinho (R$ 152,05 com frete), falta finalizar.
 - ⏳ Parafusos e abraçadeiras: falta comprar (o da célula, M4 ou M5, só depois de ver a rosca).
 - ✅ Impressão 3D: preço fechado em R$ 199,00.
 
@@ -128,7 +128,7 @@ estoque em 14/10/2026). Só compensa se alguém passar por lá; senão, fica o d
 
 | Onde | R$ |
 |---|---|
-| Mercado Livre | 151,85 |
+| Mercado Livre | 152,05 |
 | Saravati | 56,20 |
 | Mamute | 43,40 |
 | Parafusos e ferragem | ~11 |
