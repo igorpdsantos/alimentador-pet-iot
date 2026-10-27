@@ -1,10 +1,11 @@
-# Publica a pasta site/ no GitHub Pages a cada push na main que mexe nela.
+# Publica a pasta site/ no GitHub Pages a cada push na main que mexe nela,
+# com o app PWA (app/) compilado em site/app/ → https://<usuário>.github.io/alimentador-pet-iot/app/
 name: Site (GitHub Pages)
 
 on:
   push:
     branches: [main]
-    paths: ["site/**", ".github/workflows/pages.yml"]
+    paths: ["site/**", "app/**", "tools/protocol-fixtures/**", ".github/workflows/pages.yml"]
   workflow_dispatch:
 
 permissions:
@@ -25,6 +26,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      # Sem .env: o app publicado não leva credencial nenhuma; o broker é informado no pareamento.
+      - name: Testar e compilar o app
+        working-directory: app
+        run: |
+          npm ci
+          npx vitest run
+          npm run build
+      - run: cp -r app/dist site/app
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site

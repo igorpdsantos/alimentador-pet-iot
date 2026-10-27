@@ -8,6 +8,8 @@ consumo do pet e a bateria.
 **Site do projeto (modelo 3D interativo, peças, lista de compras e montagem):**
 <https://igorpdsantos.github.io/alimentador-pet-iot/>
 
+**App (abra no celular e use "Adicionar à tela inicial"):** <https://igorpdsantos.github.io/alimentador-pet-iot/app/>
+
 <p align="center">
   <img src="site/img/conjunto.png" alt="Alimentador montado: tubo de PVC sobre o pedestal, bica e vasilha sobre a balança" height="420">
   &nbsp;&nbsp;

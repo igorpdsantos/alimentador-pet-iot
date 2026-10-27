@@ -5,6 +5,9 @@ foi servido, o consumo do pet e a bateria do alimentador. Conversa com o ESP32 p
 (contrato em [`specs/05-protocolo-mqtt.md`](../specs/05-protocolo-mqtt.md)). Especificação completa em
 [`specs/06-app-mobile.md`](../specs/06-app-mobile.md).
 
+**Publicado em:** <https://igorpdsantos.github.io/alimentador-pet-iot/app/> (compilado pelo workflow do GitHub Pages a cada
+push na `main`; não leva credencial nenhuma — o broker é informado no pareamento).
+
 **Telas:** Pareamento · Início · Agenda · Histórico (lista, gráficos e precisão da dose) · Ajustes · Calibração da balança
 
 ## Testar sem o alimentador (simulador)
