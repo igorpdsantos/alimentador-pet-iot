@@ -65,6 +65,11 @@ e anote o código `pf-xxxxxx` mostrado na página. Depois de montado, dá para r
 | LED piscando devagar | Sem Wi-Fi (agenda continua funcionando) |
 | LED piscando rápido | Erro: sem ração / travado, balança, pilhas no fim |
 
+## Segurança da rede
+
+O ESP32 só abre conexão de saída para o broker (TLS) e escuta o OTA (senha `OTA_PASS`). Detalhes, pontos fracos
+conhecidos e checklist de senhas em [`docs/seguranca.md`](../docs/seguranca.md).
+
 ## Segurança do pet
 
 - O boot sempre deixa o rotor **parado** (sem pulso no servo) antes de qualquer outra coisa.

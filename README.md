@@ -87,6 +87,7 @@ site/           Site estático do projeto, publicado no GitHub Pages
 | [05 — Protocolo MQTT](specs/05-protocolo-mqtt.md) | Contrato app ↔ firmware: tópicos, comandos, eventos, erros |
 | [06 — App (PWA)](specs/06-app-mobile.md) | Telas e regras do app |
 | [07 — Testes e métricas](specs/07-testes-e-metricas.md) | Testes de bancada e métricas |
+| [Segurança](docs/seguranca.md) | Quem controla o alimentador, o que fica exposto na rede, checklist de senhas |
 | [Decisões de projeto](specs/README.md) | Por que cada escolha foi feita |
 
 ## Editar o modelo 3D

@@ -36,6 +36,11 @@ Abra <http://localhost:5173>, digite o código `pf-sim001` e, em "Servidor MQTT 
 
 Para abrir no celular direto do computador na mesma rede: `npm run dev -- --host` e acesse o IP mostrado.
 
+## Segurança
+
+O app roda no navegador e só conversa com o broker informado no pareamento; não acessa outros aparelhos da rede.
+Credenciais ficam só no celular. Ver [`docs/seguranca.md`](../docs/seguranca.md).
+
 ## Comandos
 
 ```bash

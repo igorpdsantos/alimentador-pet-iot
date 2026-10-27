@@ -14,6 +14,7 @@ Sugestões, correções e fotos de montagens são bem-vindas! Abra uma *issue* o
 - **Segurança do pet**: nada de ponta ou aresta viva ao alcance do animal; nada de plástico fino que possa soltar
   lasca na ração; o rotor nunca gira sem limite de tempo e o boot sempre o deixa parado.
 - **Segredos** (`firmware/include/secrets.h`, `app/.env`) nunca entram no git; mantenha os arquivos de exemplo.
+  O app publicado é compilado sem `.env`. Ver [`docs/seguranca.md`](docs/seguranca.md).
 - **Idioma**: documentação, textos do app e commits em português do Brasil; nomes no código em inglês.
 
 ## Verificação antes do PR

@@ -13,7 +13,7 @@ quando a implementação divergir, **atualize a spec no mesmo passo**.
 | 06 | [06-app-mobile.md](06-app-mobile.md) | App PWA: stack, telas, fluxos, armazenamento local |
 | 07 | [07-testes-e-metricas.md](07-testes-e-metricas.md) | Plano de testes e métricas para a apresentação |
 
-Documentação para o grupo (em `docs/`): [componentes.md](../docs/componentes.md) (modelos, medidas, parafusos, ligações), [montagem.md](../docs/montagem.md) (montagem, uso, nível de ração, troca de pilhas, limpeza), [orcamento.md](../docs/orcamento.md), **[passo_a_passo.md](../docs/passo_a_passo.md)** (montagem fase a fase) e o modelo 3D detalhado `cad/montagem/IoT3D_v3_montagem.FCStd`.
+Documentação para o grupo (em `docs/`): [componentes.md](../docs/componentes.md) (modelos, medidas, parafusos, ligações), [montagem.md](../docs/montagem.md) (montagem, uso, nível de ração, troca de pilhas, limpeza), [orcamento.md](../docs/orcamento.md), **[passo_a_passo.md](../docs/passo_a_passo.md)** (montagem fase a fase), [seguranca.md](../docs/seguranca.md) (acesso, exposição na rede, senhas) e o modelo 3D detalhado `cad/montagem/IoT3D_v3_montagem.FCStd`.
 
 ## Referência
 
@@ -59,4 +59,5 @@ Documentação para o grupo (em `docs/`): [componentes.md](../docs/componentes.m
 
 | ID | Pergunta | Recomendação |
 |----|----------|--------------|
+| A6 | Rede de configuração "Alimentador-xxxxxx" está sem senha (`docs/seguranca.md` §5) | Pôr senha no portal (`wm.autoConnect(ap, senha)`), impressa na etiqueta junto do QR |
 | A5 | Itens que o grupo já tem (servo SG90, protoboard, pilhas…) | Abater do orçamento. Servo SG90 do grupo **não** serve para o rotor (torque baixo, D15); dá para usar em testes de bancada do firmware |
