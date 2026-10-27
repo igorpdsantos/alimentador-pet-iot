@@ -53,11 +53,11 @@ Documentação para o grupo (em `docs/`): [componentes.md](../docs/componentes.m
 | D18 | **4 patas anti-tombamento (P12) com lastro**, em vez de prender na parede ou trocar para PVC DN 150 | Grupo não quer prender na parede; DN 150 estourava o orçamento. Patas dobram a força para tombar (~3 → ~6,3 N) por ~R$ 20 (03-mecanica §5.1) |
 | D19 | **App como PWA** (Vite + React + TypeScript), no lugar do Expo (26/10/2026) | Abre em qualquer celular pelo navegador e instala na tela inicial, sem loja nem Expo Go; mesmo código roda no computador da apresentação; dá para publicar no GitHub Pages |
 | D20 | **Lógica pura do firmware em `firmware/lib/core`** (dosagem, bateria, agenda, reservatório, protocolo, histórico) | Compila igual no ESP32 e no PC; 40 testes nativos usam os mesmos fixtures do app |
+| D21 | **Rede de configuração com senha** (`PORTAL_PASS` em `secrets.h`, 8–63 caracteres, WPA2), impressa na etiqueta junto do QR do código `pf-xxxxxx` (era A6, 27/10/2026) | Sem senha, alguém por perto podia entrar no portal aberto e configurar o alimentador em outra rede (`docs/seguranca.md`) |
 | D11 | **Projeto tolerante** às peças compradas: tubo encaixa direto na caixa (sem cap embaixo), rasgos na célula, envelope de vasilha | A equipe ainda não tem as peças; dá para imprimir antes de comprar |
 
 ## Decisões em aberto
 
 | ID | Pergunta | Recomendação |
 |----|----------|--------------|
-| A6 | Rede de configuração "Alimentador-xxxxxx" está sem senha (`docs/seguranca.md` §5) | Pôr senha no portal (`wm.autoConnect(ap, senha)`), impressa na etiqueta junto do QR |
 | A5 | Itens que o grupo já tem (servo SG90, protoboard, pilhas…) | Abater do orçamento. Servo SG90 do grupo **não** serve para o rotor (torque baixo, D15); dá para usar em testes de bancada do firmware |

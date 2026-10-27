@@ -9,7 +9,7 @@
 | Balança | `bogde/HX711` |
 | JSON | `bblanchon/ArduinoJson` v7 |
 | MQTT | `knolleary/PubSubClient` sobre `WiFiClientSecure` (TLS, porta 8883); buffer 8192 B (páginas do histórico). Publica sempre com QoS 0 (limite da biblioteca); assina `cmd` com QoS 1 |
-| Wi-Fi | `tzapu/WiFiManager` (portal cativo "Alimentador-XXXXXX") |
+| Wi-Fi | `tzapu/WiFiManager` (portal cativo "Alimentador-XXXXXX", **com senha** `PORTAL_PASS`, D21) |
 | Hora | `configTzTime("<-03>3", "a.st1.ntp.br", "pool.ntp.org")` |
 | Persistência | `Preferences` (NVS) para config/calibração; `LittleFS` para histórico |
 
@@ -170,6 +170,7 @@ IDLE → PRECHECK → DESTRAVA → BASELINE → GIRA → ASSENTA → PESA ─┬
 #define MQTT_USER "..."
 #define MQTT_PASS "..."
 #define OTA_PASS  "..."
+#define PORTAL_PASS "..."   // 8 a 63 caracteres; não compila fora disso. Vai na etiqueta do alimentador
 ```
 
 Certificado raiz do broker (ISRG Root X1 para HiveMQ Cloud) em `include/ca_cert.h`.

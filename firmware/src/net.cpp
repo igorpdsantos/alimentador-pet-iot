@@ -16,6 +16,11 @@
 #include "secrets.h"
 #include "state.h"
 
+#ifndef PORTAL_PASS
+#error "Defina PORTAL_PASS em include/secrets.h (senha da rede Alimentador-xxxxxx, ver secrets.example.h)"
+#endif
+static_assert(sizeof(PORTAL_PASS) - 1 >= 8 && sizeof(PORTAL_PASS) - 1 <= 63, "PORTAL_PASS precisa ter de 8 a 63 caracteres (WPA2)");
+
 namespace net {
 namespace {
 
@@ -221,7 +226,7 @@ void task(void*) {
   wm.setCustomHeadElement(info);
   wm.setConfigPortalBlocking(false);  // agenda e dosagem continuam sem rede
   wm.setConfigPortalTimeout(PORTAL_TIMEOUT_S);
-  wm.autoConnect(ap);
+  wm.autoConnect(ap, PORTAL_PASS);  // rede de configuração com senha (WPA2), impressa na etiqueta
   WiFi.setSleep(true);
 
   for (;;) {
@@ -238,7 +243,7 @@ void task(void*) {
       mqtt.loop();
     } else if (!wm.getConfigPortalActive() && millis() > nextAttempt) {
       // Portal expirou sem rede salva: tenta de novo mais tarde
-      wm.startConfigPortal(ap);
+      wm.startConfigPortal(ap, PORTAL_PASS);
       nextAttempt = millis() + MQTT_BACKOFF_MAX_MS;
     }
     drainOutQueue();

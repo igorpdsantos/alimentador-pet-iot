@@ -38,7 +38,7 @@ O app em <https://igorpdsantos.github.io/alimentador-pet-iot/app/> é uma págin
 |---|---|---|
 | Conexão de saída para o broker | — (ele que conecta) | TLS + usuário/senha |
 | Atualização pelo Wi-Fi (OTA, porta 3232) | Só quem já está no Wi-Fi de casa | Senha `OTA_PASS` em `secrets.h` |
-| Rede de configuração "Alimentador-xxxxxx" (portal) | Quem estiver por perto | **Sem senha** — ver §5 |
+| Rede de configuração "Alimentador-xxxxxx" (portal) | Quem estiver por perto e souber a senha | Senha WPA2 `PORTAL_PASS` (na etiqueta) |
 
 - O firmware não tem nenhuma função para acessar outros aparelhos da rede. Para virar ferramenta de ataque, alguém
   teria que **regravar o firmware**: com a senha de OTA (estando no seu Wi-Fi) ou com o cabo USB na placa.
@@ -60,7 +60,7 @@ Não daria acesso ao Wi-Fi de casa nem aos outros aparelhos. Resolve-se trocando
 
 | Ponto | Risco | Situação |
 |---|---|---|
-| Rede de configuração sem senha | Alguém por perto, no momento em que o portal está aberto, entra e configura o alimentador em outra rede (atrapalha, mas não acessa a sua) | **Em aberto** (A6 em `specs/README.md`): pôr senha no portal, impressa na etiqueta junto do QR |
+| Rede de configuração | Alguém por perto, com o portal aberto, configurava o alimentador em outra rede | **Resolvido** (D21, 27/10/2026): rede com senha WPA2 `PORTAL_PASS`, impressa na etiqueta. O firmware não compila com senha de menos de 8 caracteres. Quem vê a etiqueta (visita em casa) ainda consegue entrar enquanto o portal estiver aberto |
 | Senha de OTA fraca | Quem já está no seu Wi-Fi regrava o firmware | Usar senha forte em `OTA_PASS` |
 | ESP32 publica com QoS 0 | Mensagem pode se perder numa queda de rede (não é falha de segurança) | O app recupera pelo histórico ao reconectar |
 | Credencial do app guardada no navegador | Quem pegar o celular desbloqueado usa o app | Igual a qualquer app logado; "Desparear" em Ajustes apaga |
@@ -70,6 +70,7 @@ Não daria acesso ao Wi-Fi de casa nem aos outros aparelhos. Resolve-se trocando
 1. No HiveMQ Cloud, crie **dois usuários**: um para o ESP32 e outro para o app. Senhas fortes (16+ caracteres).
 2. Restrinja os dois ao tópico `petfeeder/#` (permissões do HiveMQ).
 3. Senha do ESP32 só em `firmware/include/secrets.h` (fora do git). Senha do app só digitada no pareamento.
-4. Defina uma `OTA_PASS` forte antes de gravar a placa.
+4. Defina uma `OTA_PASS` forte e uma `PORTAL_PASS` (8+ caracteres) antes de gravar a placa. Imprima a
+   `PORTAL_PASS` na etiqueta do alimentador, junto do QR com o código `pf-xxxxxx`; não use a mesma senha do Wi-Fi de casa.
 5. Não versionar `secrets.h` nem `.env` (o `.gitignore` já impede); conferir `git status` antes de cada commit.
 6. Se uma senha vazar: troque no HiveMQ e pareie de novo (app) ou regrave o `secrets.h` (ESP32).

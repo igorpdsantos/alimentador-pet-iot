@@ -40,7 +40,7 @@ app/
 ## 3. Telas
 
 ### Pareamento (primeiro uso)
-1. Explica: ligar o alimentador, conectar o celular à rede "Alimentador-XXXXXX", escolher o Wi-Fi da casa
+1. Explica: ligar o alimentador, conectar o celular à rede "Alimentador-XXXXXX" (senha na etiqueta, D21), escolher o Wi-Fi da casa
    no portal (WiFiManager). O portal mostra o `device_id`.
 2. Usuário digita o `device_id` (ou lê o QR da etiqueta pela câmera, onde o navegador tem `BarcodeDetector` — QR contém `pf-xxxxxx`).
 3. Broker (URL, usuário, senha) vem preenchido do `.env`; dá para trocar em "Servidor MQTT (avançado)".

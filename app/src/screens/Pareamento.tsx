@@ -46,7 +46,7 @@ export function Pareamento() {
         <h2 id="passos">Antes de começar</h2>
         <ol style={{ margin: 0, paddingLeft: 20, display: 'grid', gap: 8 }}>
           <li>Ligue o alimentador na tomada e na chave.</li>
-          <li>No celular, conecte-se à rede Wi-Fi <b>Alimentador-xxxxxx</b>.</li>
+          <li>No celular, conecte-se à rede Wi-Fi <b>Alimentador-xxxxxx</b> com a <b>senha da etiqueta</b> do alimentador.</li>
           <li>Na página que abrir, escolha o Wi-Fi da sua casa e anote o <b>código do alimentador</b> (pf-…).</li>
           <li>Volte ao Wi-Fi de casa e digite o código abaixo.</li>
         </ol>

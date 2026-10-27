@@ -145,7 +145,7 @@ Ligações: tabela em `docs/componentes.md` §4. Regras:
 
 ## 7. Primeiro uso (pelo app)
 
-1. Ligar a chave → LED piscando lento → conectar o celular na rede **"Alimentador-XXXXXX"** e escolher o Wi-Fi.
+1. Ligar a chave → LED piscando lento → conectar o celular na rede **"Alimentador-XXXXXX"** com a **senha da etiqueta** e escolher o Wi-Fi.
 2. Parear no app com o código do aparelho.
 3. **Calibrar a balança:** plataforma vazia → peso conhecido (ex.: pacote de 500 g pesado na cozinha) → vasilha vazia.
 4. **Calibrar a bateria:** medir as pilhas com multímetro e digitar a tensão.
@@ -209,7 +209,7 @@ Na prática: a cada 2–3 anos, ou depois de quedas de energia longas.
 | "Reservatório vazio ou travado" com ração | Grão preso no escudo; pá quebrada | "Destravar" no app; conferir o rotor |
 | Peso não muda | Fio da célula solto; A+/A− invertidos | Conferir cores |
 | Plataforma mede errado | Algo encostando; batente alto demais | Folga de 1 mm nos batentes; nada tocando a saia |
-| Não conecta no Wi-Fi | Rede mudou | Segurar BOOT 10 s → portal "Alimentador-XXXXXX" |
+| Não conecta no Wi-Fi | Rede mudou | Segurar BOOT 10 s → portal "Alimentador-XXXXXX" (senha da etiqueta) |
 
 ## 12. Montagem 3D detalhada (componentes, fios e furos)
 

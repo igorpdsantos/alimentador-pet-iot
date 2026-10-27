@@ -282,7 +282,7 @@ entre as patas; a plataforma da balança não encosta em nenhuma pata; o aliment
 ## Fase 9 — Ligar, calibrar e testar (40 min)
 
 1. Chave desligada → fonte na tomada → liga a chave. LED do pedestal pisca devagar (sem Wi-Fi).
-2. Conecte o celular na rede **"Alimentador-XXXXXX"** e escolha o Wi-Fi da casa.
+2. Conecte o celular na rede **"Alimentador-XXXXXX"** com a **senha da etiqueta** (`PORTAL_PASS`) e escolha o Wi-Fi da casa.
 3. No app: parear → **calibrar a balança** (plataforma vazia → peso conhecido → vasilha vazia).
 4. **Calibrar a bateria** com o multímetro (tensão das pilhas).
 5. Coloque a vasilha, encha o reservatório (Fase 10) e faça **5 refeições de 20 g**, conferindo no app.

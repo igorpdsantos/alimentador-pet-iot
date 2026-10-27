@@ -29,7 +29,9 @@ test/               testes da lib/core no PC, usando tools/protocol-fixtures
 ## Como compilar e gravar
 
 1. Instale o [PlatformIO](https://platformio.org/install) (extensão do VS Code ou `pip install platformio`).
-2. Copie `include/secrets.example.h` para `include/secrets.h` e preencha com o broker MQTT e uma senha de OTA.
+2. Copie `include/secrets.example.h` para `include/secrets.h` e preencha com o broker MQTT, a senha de OTA e a
+   senha da rede de configuração (`PORTAL_PASS`, 8 a 63 caracteres). Imprima essa senha numa **etiqueta** colada no
+   alimentador, junto do QR com o código `pf-xxxxxx`.
 3. Rode os testes e compile:
 
 ```bash
@@ -44,7 +46,7 @@ pio run -t upload
 pio device monitor
 ```
 
-Na primeira vez, o ESP32 abre a rede Wi-Fi **"Alimentador-XXXXXX"**: conecte o celular, escolha a rede da sua casa
+Na primeira vez, o ESP32 abre a rede Wi-Fi **"Alimentador-XXXXXX"**: conecte o celular com a senha da etiqueta, escolha a rede da sua casa
 e anote o código `pf-xxxxxx` mostrado na página. Depois de montado, dá para regravar pelo Wi-Fi (OTA).
 
 ## Primeiro uso
@@ -67,7 +69,8 @@ e anote o código `pf-xxxxxx` mostrado na página. Depois de montado, dá para r
 
 ## Segurança da rede
 
-O ESP32 só abre conexão de saída para o broker (TLS) e escuta o OTA (senha `OTA_PASS`). Detalhes, pontos fracos
+O ESP32 só abre conexão de saída para o broker (TLS) e escuta o OTA (senha `OTA_PASS`); a rede de configuração
+tem senha (`PORTAL_PASS`). Detalhes, pontos fracos
 conhecidos e checklist de senhas em [`docs/seguranca.md`](../docs/seguranca.md).
 
 ## Segurança do pet
