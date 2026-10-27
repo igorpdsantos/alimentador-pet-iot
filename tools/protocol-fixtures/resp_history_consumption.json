@@ -1,0 +1,4 @@
+{"req_id":"h2","ok":true,"data":{"items":[
+  {"seq":122,"ts":1760361300,"food_g":38.4},
+  {"seq":124,"ts":1760362200,"food_g":30.1}
+],"next_seq":125,"has_more":true}}

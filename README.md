@@ -21,8 +21,9 @@ consumo do pet e a bateria.
 | Mecânica e modelo 3D (v3) | ✅ Pronto para imprimir — 13 tipos de peça, ~773 g de PETG |
 | Lista de compras, ligações e montagem | ✅ Documentado |
 | Site do projeto | ✅ Publicado |
-| Firmware do ESP32 | 🚧 Especificado, código em desenvolvimento |
-| App mobile | 🚧 Especificado, código em desenvolvimento |
+| Firmware do ESP32 | 🧪 Código pronto e testado no PC (40 testes); falta gravar e testar na placa montada |
+| App (PWA) | 🧪 Pronto e testado com o simulador; falta testar com o alimentador real |
+| Simulador do ESP32 | ✅ Com broker MQTT local, para usar o app sem hardware |
 
 ## Como funciona
 
@@ -67,8 +68,8 @@ cad/            Modelo 3D (FreeCAD 1.1): IoT3D_v3.FCStd, peças para imprimir, m
   historico/      versões anteriores (v1, v2)
 docs/           Documentação de montagem: componentes, orçamento, passo a passo, estudos
 specs/          Especificações (fonte da verdade): sistema, hardware, mecânica, firmware, protocolo MQTT, app, testes
-firmware/       Código do ESP32 (PlatformIO + Arduino)                       — em desenvolvimento
-app/            App mobile (Expo + React Native + TypeScript)                 — em desenvolvimento
+firmware/       Código do ESP32 (PlatformIO + Arduino); lógica pura em lib/core com testes no PC
+app/            App PWA (Vite + React + TypeScript), instalável no celular
 tools/          Simulação DEM do dosador, simulador do ESP32, exemplos do contrato MQTT
 site/           Site estático do projeto, publicado no GitHub Pages
 ```
@@ -82,7 +83,7 @@ site/           Site estático do projeto, publicado no GitHub Pages
 | [03 — Mecânica](specs/03-mecanica.md) | Peças, rotor dosador, chapéu, pedestal, balança, patas |
 | [04 — Firmware](specs/04-firmware.md) | Tasks, dosagem em malha fechada, bateria, agenda, histórico |
 | [05 — Protocolo MQTT](specs/05-protocolo-mqtt.md) | Contrato app ↔ firmware: tópicos, comandos, eventos, erros |
-| [06 — App mobile](specs/06-app-mobile.md) | Telas e regras do app |
+| [06 — App (PWA)](specs/06-app-mobile.md) | Telas e regras do app |
 | [07 — Testes e métricas](specs/07-testes-e-metricas.md) | Testes de bancada e métricas |
 | [Decisões de projeto](specs/README.md) | Por que cada escolha foi feita |
 

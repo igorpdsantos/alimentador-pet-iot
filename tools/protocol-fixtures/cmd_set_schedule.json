@@ -1,0 +1,4 @@
+{"proto":1,"req_id":"s1","cmd":"set_schedule","meals":[
+  {"id":1,"time":"07:30","grams":40,"days":[0,1,2,3,4,5,6],"enabled":true,"mode":"add"},
+  {"id":2,"time":"18:00","grams":50,"days":[1,2,3,4,5],"enabled":true,"mode":"fill_to"}
+]}

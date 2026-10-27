@@ -1,0 +1,12 @@
+{
+  "proto": 1, "ts": 1760360400, "fw": "0.1.0",
+  "power": {"source": "mains"},
+  "battery": {"pct": 78, "v": 8.62, "level": "ok", "installed": true},
+  "bowl": {"present": true, "food_g": 42.5},
+  "hopper": {"remaining_g": 610, "pct": 76, "capacity_g": 800, "capacity_learned": false, "days_left": 10},
+  "feeding": false,
+  "next_meal": {"id": 2, "time": "18:00", "grams": 50},
+  "wifi_rssi": -61,
+  "time_synced": true,
+  "alerts": ["LOW_BATTERY"]
+}

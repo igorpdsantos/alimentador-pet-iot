@@ -8,6 +8,8 @@ tools/simulador/.env
 firmware/.pio/
 app/node_modules/
 app/.expo/
+app/dist/
+app/dev-dist/
 tools/**/node_modules/
 __pycache__/
 *.pyc

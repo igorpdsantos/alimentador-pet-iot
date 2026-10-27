@@ -1,0 +1,17 @@
+{
+  "name": "simulador-alimentador",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Simulador do ESP32 no contrato MQTT (specs/05-protocolo-mqtt.md), com broker local opcional",
+  "type": "module",
+  "scripts": {
+    "start": "node simulador.mjs",
+    "local": "node simulador.mjs --local --id pf-sim001"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "aedes": "^0.51.3",
+    "mqtt": "^5.16.1",
+    "ws": "^8.22.0"
+  }
+}

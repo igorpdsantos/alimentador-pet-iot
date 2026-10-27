@@ -1,0 +1,1 @@
+{"proto":1,"req_id":"x3","cmd":"set_schedule","meals":[{"id":1,"time":"25:10","grams":40,"days":[0],"enabled":true,"mode":"add"}]}

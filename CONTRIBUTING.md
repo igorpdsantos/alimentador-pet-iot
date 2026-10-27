@@ -21,6 +21,6 @@ Sugestões, correções e fotos de montagens são bem-vindas! Abra uma *issue* o
 | Área | Comandos |
 |---|---|
 | Firmware | `pio test -e native` e `pio run` |
-| App | `npx tsc --noEmit` e `npx jest` |
+| App | `npx tsc --noEmit`, `npx vitest run` e conferir as telas no navegador com o simulador |
 | Modelo 3D | gerar, exportar e conferir o render |
 | Site | `python3 site/gerar_site.py` e abrir `http://localhost:8765` (ver `site/README.md`) |

@@ -10,7 +10,7 @@ quando a implementação divergir, **atualize a spec no mesmo passo**.
 | 03 | [03-mecanica.md](03-mecanica.md) | Peças do modelo 3D, agitador (substitui o prego), base com balança |
 | 04 | [04-firmware.md](04-firmware.md) | Arquitetura do ESP32, dosagem por peso em malha fechada, bateria, agenda |
 | 05 | [05-protocolo-mqtt.md](05-protocolo-mqtt.md) | Contrato app ↔ firmware: tópicos, comandos, eventos, erros |
-| 06 | [06-app-mobile.md](06-app-mobile.md) | Stack, telas, fluxos, armazenamento local |
+| 06 | [06-app-mobile.md](06-app-mobile.md) | App PWA: stack, telas, fluxos, armazenamento local |
 | 07 | [07-testes-e-metricas.md](07-testes-e-metricas.md) | Plano de testes e métricas para a apresentação |
 
 Documentação para o grupo (em `docs/`): [componentes.md](../docs/componentes.md) (modelos, medidas, parafusos, ligações), [montagem.md](../docs/montagem.md) (montagem, uso, nível de ração, troca de pilhas, limpeza), [orcamento.md](../docs/orcamento.md), **[passo_a_passo.md](../docs/passo_a_passo.md)** (montagem fase a fase) e o modelo 3D detalhado `cad/montagem/IoT3D_v3_montagem.FCStd`.
@@ -26,7 +26,7 @@ Documentação para o grupo (em `docs/`): [componentes.md](../docs/componentes.m
 |---|---|
 | Dose por *tempo* de abertura ("intensidade") | Dose por **peso medido** (HX711 + célula de 5 kg) em malha fechada |
 | Sem feedback do que caiu | App mostra gramas **efetivamente servidas** e consumo do pet |
-| Página web (Paho MQTT) | **App mobile** (Expo / React Native) |
+| Página web (Paho MQTT) | **App PWA** instalável no celular (React + TypeScript) |
 | Sem monitoramento de energia | **Medidor de bateria** (% e alerta de troca de pilhas) |
 | Prego como agitador | **Agitador impresso** integrado à tampa + rotina de vibração no servo |
 
@@ -36,7 +36,7 @@ Documentação para o grupo (em `docs/`): [componentes.md](../docs/componentes.m
 |----|---------|--------|
 | D1 | Firmware em **PlatformIO + Arduino framework** (não ESP-IDF puro como a referência) | Bibliotecas prontas para HX711, servo, Wi-Fi manager; curva menor para a equipe. FreeRTOS continua disponível. |
 | D2 | Comunicação por **MQTT com broker na nuvem (HiveMQ Cloud, plano gratuito, TLS)** | Funciona fora da rede de casa, igual à referência, sem backend próprio. |
-| D3 | App em **Expo (React Native + TypeScript)** | Android e iOS com um código só; roda no emulador Android já instalado. |
+| D3 | ~~App em Expo (React Native)~~ → ver D19 | — |
 | D4 | **Histórico guardado no ESP32** (buffer circular em flash) e sincronizado pelo app | Sem servidor; o app pode ficar fechado e não perde eventos. |
 | D5 | Wi-Fi configurado por **portal cativo** (WiFiManager) | Sem credenciais no código. |
 | D6 | **Fonte 12 V na tomada + 6×AA alcalinas como no-break** (diodos em "OU") | Só pilhas durariam ~2–3 dias; assim duram anos e o app responde na hora (02-hardware §3) |
@@ -51,6 +51,8 @@ Documentação para o grupo (em `docs/`): [componentes.md](../docs/componentes.m
 | D16 | **Gaveta das pilhas (P11)** saindo pela esquerda do pedestal | Trocar pilhas sem levantar o tubo cheio nem virar o alimentador; o fundo do pedestal fica aberto sob a gaveta |
 | D17 | **Capacidade mínima 1,2 kg** (1 kg + 200 g de margem) com ração leve de 0,45 kg/L → tubo de 640 mm (era 450) | Pedido do grupo; aumenta a altura para ~67 cm e o risco de tombar (03-mecanica §2) |
 | D18 | **4 patas anti-tombamento (P12) com lastro**, em vez de prender na parede ou trocar para PVC DN 150 | Grupo não quer prender na parede; DN 150 estourava o orçamento. Patas dobram a força para tombar (~3 → ~6,3 N) por ~R$ 20 (03-mecanica §5.1) |
+| D19 | **App como PWA** (Vite + React + TypeScript), no lugar do Expo (26/10/2026) | Abre em qualquer celular pelo navegador e instala na tela inicial, sem loja nem Expo Go; mesmo código roda no computador da apresentação; dá para publicar no GitHub Pages |
+| D20 | **Lógica pura do firmware em `firmware/lib/core`** (dosagem, bateria, agenda, reservatório, protocolo, histórico) | Compila igual no ESP32 e no PC; 40 testes nativos usam os mesmos fixtures do app |
 | D11 | **Projeto tolerante** às peças compradas: tubo encaixa direto na caixa (sem cap embaixo), rasgos na célula, envelope de vasilha | A equipe ainda não tem as peças; dá para imprimir antes de comprar |
 
 ## Decisões em aberto

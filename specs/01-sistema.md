@@ -11,7 +11,7 @@ Alinhado à apresentação:
 |---|---|
 | 01 Geral — dosar e dispensar de forma autônoma, agendada ou sob demanda | Agenda no ESP32 (funciona sem internet) + comando "alimentar agora" |
 | 02 Automação do processo — porção correta em horários definidos | Dosagem em malha fechada pela balança (§4.2) |
-| 03 Integração HW/SW — ESP32 com Wi-Fi respondendo ao celular | MQTT com TLS, app mobile |
+| 03 Integração HW/SW — ESP32 com Wi-Fi respondendo ao celular | MQTT com TLS, app PWA no celular |
 | 04 Desenvolvimento mecânico — peças em FreeCAD/3D, escoamento sem entupimento | Funil + comporta + agitador impresso + base com balança |
 
 Fluxo resumido (slide do app): **1. Programa** horários e gramas no celular → **2. Libera** até o peso
@@ -25,7 +25,7 @@ definido → **3. Informa** no app o que foi servido.
 - Balança sob a vasilha: dose por peso, leitura da ração na vasilha, consumo ao longo do dia.
 - Detecção de falhas: reservatório vazio/entupido, vasilha ausente, bateria crítica, balança sem resposta.
 - Medidor de bateria em % e tensão, com alerta para trocar pilhas.
-- App mobile com status, agenda, histórico, gráficos, calibração e configurações.
+- App (PWA, instalável no celular) com status, agenda, histórico, gráficos, calibração e configurações.
 
 **Fora (por enquanto)**
 - Notificação push com o app fechado (exige servidor; alternativa futura: ntfy.sh).
@@ -68,7 +68,7 @@ definido → **3. Informa** no app o que foi servido.
 
 ```
 ┌──────────────── Dispositivo ────────────────┐          ┌──────────────┐          ┌───────────┐
-│ 12 V (+6×AA) → 5 V ───┬─ ESP32 (VIN)        │  MQTT    │ HiveMQ Cloud │  MQTT    │ App Expo  │
+│ 12 V (+6×AA) → 5 V ───┬─ ESP32 (VIN)        │  MQTT    │ HiveMQ Cloud │  MQTT    │ App PWA   │
 │                        └─ Servo MG90S        │◄──TLS───►│  (broker)    │◄──WSS───►│ (celular) │
 │ Divisor R1/R2 → GPIO34 (bateria)             │  8883    └──────────────┘  8884    └───────────┘
 │ Célula 5 kg → HX711 → GPIO16/4 (balança)     │
@@ -98,7 +98,7 @@ Detalhes em [04-firmware.md](04-firmware.md) §4.
 ```
 specs/                 ← estes documentos
 firmware/              ← PlatformIO (ESP32)
-app/                   ← Expo / React Native
+app/                   ← PWA (Vite + React + TypeScript)
 tools/                 ← simulador do dispositivo (Node) e utilitários
 cad/                   ← FreeCAD (.FCStd), STLs, scripts/ e renders/
 docs/                  ← apresentação, fotos, diagramas

@@ -1,0 +1,4 @@
+{"req_id":"h1","ok":true,"data":{"items":[
+  {"seq":121,"ts":1760360400,"feed_id":56,"source":"schedule","meal_id":1,"target_g":40,"served_g":41.2,"duration_ms":8400,"pulses":5,"unjam_tries":0,"status":"OK","unstable":false,"interference":false,"battery_pct":80},
+  {"seq":123,"ts":1760385600,"feed_id":57,"source":"app","target_g":50,"served_g":49.6,"duration_ms":9120,"pulses":6,"unjam_tries":1,"status":"OK","unstable":false,"interference":false,"battery_pct":79}
+],"next_seq":124,"has_more":false}}

@@ -20,6 +20,9 @@ quebrar compatibilidade.
 | `petfeeder/{id}/resp` | disp → app | 1 | não | Resposta a cada comando |
 | `petfeeder/{id}/event` | disp → app | 1 | não | Refeições, progresso, alertas (§5) |
 
+O ESP32 publica com QoS 0 (a PubSubClient não publica com QoS 1); o app compensa sincronizando o histórico por `seq`
+ao reconectar. O simulador e o app usam os QoS da tabela.
+
 ## 2. Comandos (`cmd`)
 
 Envelope: `{"proto":1, "req_id":"<uuid curto>", "cmd":"<nome>", ...args}`
@@ -31,10 +34,10 @@ O firmware guarda os últimos 16 `req_id`; repetido → responde igual e **não 
 |---|---|---|
 | `ping` | — | `{fw, proto, uptime_s}` |
 | `feed` | `grams` (5–200), `mode` (`add`\|`fill_to`, padrão `add`) | Inicia dosagem; resposta imediata `{feed_id}`; resultado vem em `event` |
-| `cancel_feed` | — | Fecha comporta e encerra com status `CANCELED` |
+| `cancel_feed` | — | Para o rotor e encerra com status `CANCELED` → `{was_feeding}` |
 | `set_schedule` | `meals: [{id, time:"HH:MM", grams, days:[0-6], enabled, mode}]` (≤ 8) | Substitui a agenda; republica `config` |
 | `set_settings` | qualquer subconjunto de §4 `settings` | Atualiza; republica `config` |
-| `history` | `since_seq`, `limit` (≤ 50), `kind` (`feeds`\|`consumption`) | `{items:[…], next_seq, has_more}` |
+| `history` | `since_seq`, `limit` (≤ 50), `kind` (`feeds`\|`consumption`) | `{items:[…], next_seq, has_more}`; pode vir menos que `limit` se não couber numa mensagem (aí `has_more = true`) |
 | `tare_platform` | — | Calibração passo 1 (plataforma vazia) |
 | `calibrate` | `known_g` | Passo 2 (peso conhecido na plataforma) → `{scale_factor}` |
 | `tare_bowl` | — | Passo 3 (vasilha vazia) → `{bowl_weight_g}` |
@@ -64,6 +67,7 @@ O firmware guarda os últimos 16 `req_id`; repetido → responde igual e **não 
 }
 ```
 
+`next_meal` e `hopper.days_left` podem ser `null` (sem refeição ativa / sem média de consumo ainda).
 `battery.level`: `ok` | `low` (≤ 20 %) | `critical` (≤ 5 %). Publicado ao conectar, a cada mudança relevante
 (Δbateria ≥ 1 %, Δração ≥ 2 g, início/fim de refeição) e no máximo a cada 60 s.
 
@@ -86,7 +90,9 @@ O firmware guarda os últimos 16 `req_id`; repetido → responde igual e **não 
 
 ## 5. Eventos (`event`)
 
-Envelope: `{"proto":1, "seq": 123, "ts": …, "type": "<tipo>", ...}` — `seq` é o mesmo do histórico.
+Envelope: `{"proto":1, "seq": 123, "ts": …, "type": "<tipo>", ...}` — `seq` é o mesmo do histórico
+(reservado no início da refeição: `feed_started`, `feed_progress` e `feed_result` têm o mesmo). `alert` não vai
+para o histórico e usa `seq: 0`.
 
 | `type` | Campos |
 |---|---|

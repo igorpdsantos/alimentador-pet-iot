@@ -1,0 +1,1 @@
+{"proto":1,"seq":125,"ts":1760400000,"type":"feed_result","feed_id":58,"source":"schedule","meal_id":2,"target_g":50,"served_g":3.1,"duration_ms":19800,"pulses":10,"unjam_tries":4,"status":"NO_FLOW","unstable":false,"interference":false,"battery_pct":79}

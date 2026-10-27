@@ -7,8 +7,8 @@ Resultados vão em `docs/resultados/` (planilha ou CSV + fotos). Cada teste tem 
 | Onde | O quê | Comando |
 |---|---|---|
 | Firmware (PC) | Máquina de estados da dosagem com balança simulada; curva de bateria; agenda (virada de dia, dias da semana, refeição perdida); parse/validação de comandos e `req_id` repetido | `cd firmware && pio test -e native` |
-| App | Schemas zod contra exemplos de 05-protocolo; store; telas principais com cliente MQTT falso | `cd app && npx jest` |
-| Integração | App ↔ simulador via broker de teste | Ver skill `app-mobile` |
+| App | Schemas zod contra exemplos de 05-protocolo; cliente MQTT (req_id, timeout, lixo descartado); histórico local; métricas; telas principais | `cd app && npx vitest run` |
+| Integração | App ↔ simulador com broker local | `node tools/simulador/simulador.mjs --local` + `cd app && npm run dev` |
 
 Os exemplos JSON de 05-protocolo ficam também em `tools/protocol-fixtures/*.json` e são usados pelos
 testes dos dois lados — garante que firmware e app concordam com o contrato.
@@ -23,7 +23,7 @@ testes dos dois lados — garante que firmware e app concordam com o contrato.
 | T-DOS | **Precisão da dose** | 10 refeições de 20 g, 10 de 50 g, 10 de 100 g | Erro médio ≤ 5 %, nenhuma > 10 % |
 | T-FLX | Escoamento / entupimento | Reservatório cheio → vazio em refeições de 50 g | Nenhum `NO_FLOW` com ração disponível |
 | T-JAM | **Vários tamanhos de grão** | Repetir T-DOS e T-FLX com ração de gato (~6 mm), cão pequeno (~10 mm) e cão grande (~18–22 mm) | Nenhum travamento permanente; registrar quantas vezes a rotina de destravar agiu |
-| T-VAZIO | Reservatório vazio | Dosar com reservatório vazio | Status `NO_FLOW` em ≤ 20 s, comporta fechada |
+| T-VAZIO | Reservatório vazio | Dosar com reservatório vazio | Status `NO_FLOW` em ≤ 25 s, rotor parado |
 | T-VAS | Vasilha ausente | Tirar a vasilha e mandar alimentar | `BOWL_MISSING`, servo não se move |
 | T-AGD | Agenda | 3 refeições em horários próximos; desligar Wi-Fi do roteador antes da 2ª | As 3 são servidas; histórico sincroniza ao voltar |
 | T-LAT | Latência | 10 comandos "alimentar agora", cronometrar até o servo mover | Mediana < 3 s |

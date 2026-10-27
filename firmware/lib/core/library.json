@@ -1,0 +1,7 @@
+{
+  "name": "core",
+  "version": "0.1.0",
+  "description": "Lógica pura do alimentador (sem hardware): dosagem, bateria, agenda, reservatório, protocolo",
+  "frameworks": "*",
+  "platforms": "*"
+}

@@ -8,7 +8,7 @@
 | Servo | `madhephaestus/ESP32Servo` (`writeMicroseconds` para o servo 360°) |
 | Balança | `bogde/HX711` |
 | JSON | `bblanchon/ArduinoJson` v7 |
-| MQTT | `knolleary/PubSubClient` sobre `WiFiClientSecure` (TLS, porta 8883); buffer ≥ 2048 B |
+| MQTT | `knolleary/PubSubClient` sobre `WiFiClientSecure` (TLS, porta 8883); buffer 8192 B (páginas do histórico). Publica sempre com QoS 0 (limite da biblioteca); assina `cmd` com QoS 1 |
 | Wi-Fi | `tzapu/WiFiManager` (portal cativo "Alimentador-XXXXXX") |
 | Hora | `configTzTime("<-03>3", "a.st1.ntp.br", "pool.ntp.org")` |
 | Persistência | `Preferences` (NVS) para config/calibração; `LittleFS` para histórico |
@@ -17,33 +17,42 @@
 
 ```
 firmware/
-  platformio.ini
+  platformio.ini          envs esp32 (placa) e native (testes no PC)
   include/
     config.h              ← pinos, constantes, limites (espelha 02-hardware §2)
+    ca_cert.h             ← ISRG Root X1 (HiveMQ Cloud), válido até 2035
     secrets.example.h     ← modelo; secrets.h fica no .gitignore
-  src/
-    main.cpp              ← setup + criação das tasks
-    scale.{h,cpp}         ← HX711, leitura estável, calibração
-    rotor.{h,cpp}         ← servo 360°: avança/recua/para, trim do neutro; parado no boot
+  lib/core/src/           ← LÓGICA PURA, sem Arduino: compila no ESP32 e no PC
     dispenser.{h,cpp}     ← máquina de estados da dosagem (§4)
-    battery.{h,cpp}       ← ADC, tensão, % (§5)
-    scheduler.{h,cpp}     ← agenda e disparo (§6)
-    history.{h,cpp}       ← buffer circular em LittleFS (§7)
-    net.{h,cpp}           ← Wi-Fi, MQTT, reconexão
+    battery_curve.{h,cpp} ← tensão → %, nível, calibração (§5)
+    schedule.{h,cpp}      ← agenda e disparo (§6)
+    hopper.{h,cpp}        ← nível estimado do reservatório (§4.6)
+    history_ring.h        ← buffer circular sobre armazenamento abstrato (§7)
     protocol.{h,cpp}      ← parse/validação de comandos e montagem de mensagens (05-protocolo)
-  test/                   ← testes nativos (env native) da lógica pura
+    req_cache.{h,cpp}     ← idempotência por req_id
+    alerts, stats, types
+  src/                    ← hardware e tasks
+    main.cpp              ← rotor parado primeiro; carrega NVS; cria as tasks
+    rotor, scale, power   ← servo 360°, HX711, ADC da bateria/fonte
+    storage               ← NVS (Preferences)
+    history               ← LittleFS (/feeds.bin, /consumption.bin)
+    net                   ← Wi-Fi (portal não bloqueante), MQTT/TLS, OTA
+    control, monitor, ui  ← tasks (§3)
+    state                 ← estado compartilhado + mutex
+  test/                   ← testes nativos (Unity) da lib/core, com tools/protocol-fixtures
 ```
 
-**Lógica pura separada do hardware**: `dispenser`, `battery` (curva %), `scheduler` e `protocol`
-recebem leituras/tempo por interface, para serem testados no PC com `pio test -e native`.
+**Lógica pura separada do hardware** (D20): tudo em `lib/core` recebe leituras e tempo por parâmetro ou interface
+(`DispenserIO`, `RecordStore`) e é testado no PC com `pio test -e native`.
 
 ## 3. Tasks (FreeRTOS)
 
 | Task | Prioridade | Função |
 |---|---|---|
-| `net` | 1 | Wi-Fi, MQTT, publica fila de saída, recebe comandos → fila de comandos |
-| `control` | 2 | Consome comandos e gatilhos da agenda; executa uma dosagem por vez |
-| `monitor` | 1 | A cada 60 s: bateria, peso da vasilha; a cada 15 min grava amostra de consumo; publica `status` quando muda |
+| `net` | 1 | Wi-Fi, MQTT, OTA; publica a fila de saída; valida comandos e responde os que não mexem no hardware (ping, agenda, ajustes, histórico, refill, cancel); os demais vão para a fila de `control` (`BUSY` se houver dosagem) |
+| `control` | 2 | Única dona do rotor e da balança: comandos de hardware, agenda (a cada 20 s), peso da vasilha (60 s), amostra de consumo (15 min), exercício diário; uma dosagem por vez |
+| `monitor` | 1 | A cada 1 s: fonte presente; a cada 60 s: bateria; calcula alertas (evento a cada alerta novo) e publica `status` quando muda |
+| `ui` | 1 | LED de status, botão do pedestal (clique / 3 s) e BOOT 10 s |
 
 Regras: nenhuma task bloqueia > 100 ms sem `vTaskDelay`; servo e HX711 só são acessados pela task `control`
 (monitor pede leitura via fila/mutex); watchdog de task habilitado.
@@ -64,13 +73,13 @@ IDLE → PRECHECK → DESTRAVA → BASELINE → GIRA → ASSENTA → PESA ─┬
 
 | Estado | Ação | Saída |
 |---|---|---|
-| PRECHECK | energia ok (na tomada, ou pilhas > 15 %), HX711 pronto, vasilha presente, sem dosagem em andamento | falha → ERROR (`LOW_BATTERY`, `SCALE_ERROR`, `BOWL_MISSING`, `BUSY`) |
+| PRECHECK | balança calibrada (senão `resp` `NOT_CALIBRATED`, sem refeição), energia ok (na tomada, ou pilhas > 15 %), HX711 pronto, vasilha presente, sem dosagem em andamento | falha → ERROR (`LOW_BATTERY`, `SCALE_ERROR`, `BOWL_MISSING`, `BUSY`) |
 | DESTRAVA | recua 250 ms e avança 250 ms (solta grãos assentados) | — |
 | BASELINE | peso estável `W0` (§4.4) | — |
 | GIRA | servo avança por `t_giro` ms e para (1500 µs) | — |
 | ASSENTA | espera 500 ms | — |
-| PESA | `servido = W − W0`; `falta = meta − servido` | `falta ≤ tolerância` → DONE |
-| RECUA | **anti-travamento**: recua 600 ms, avança de novo; conta tentativas | 4 tentativas sem ganho → ERROR `NO_FLOW` |
+| PESA | `servido` = soma dos ganhos positivos; `falta = meta − servido` | `falta ≤ 0,4 × tolerância` → DONE (parar antes dava dose sempre abaixo da meta) |
+| RECUA | **anti-travamento**: depois de 2 giros sem ganho, recua 600 ms e avança de novo; depois do 1º recuo, cada avanço sem ganho já é uma tentativa | 4 tentativas sem ganho → ERROR `NO_FLOW` (~24 s com o reservatório vazio) |
 | DONE / ERROR | para o servo, recua 150 ms (alivia as pás), pesa final, grava histórico, publica evento | → IDLE |
 
 ### 4.2 Tempo de giro
@@ -105,6 +114,7 @@ IDLE → PRECHECK → DESTRAVA → BASELINE → GIRA → ASSENTA → PESA ─┬
 
 - `add` (padrão): serve `grams` a mais.
 - `fill_to` (RF11): serve `max(0, grams − ração_atual)`; se já houver ração suficiente, status `SKIPPED_FULL`.
+- Nos dois modos a meta é cortada para não passar de `max_bowl_g` na vasilha; meta < 3 g → `SKIPPED_FULL`.
 
 ## 4.6 Nível do reservatório (sem sensor extra)
 
@@ -129,8 +139,8 @@ IDLE → PRECHECK → DESTRAVA → BASELINE → GIRA → ASSENTA → PESA ─┬
 
 ## 6. Agenda
 
-- Até 8 refeições `{id, time "HH:MM", grams, days[0..6], enabled, mode}` em NVS.
-- Checa a cada 20 s: refeição dispara se `hora == time`, dia ativo e **não servida hoje** (marca `last_served_date` por id).
+- Até 8 refeições `{id, time "HH:MM", grams, days[0..6], enabled, mode}` em NVS. Dias: 0 = domingo … 6 = sábado.
+- Checa a cada 20 s: refeição dispara se `hora == time`, dia ativo e **não servida hoje** (marca `last_served_date` por id **antes** de servir: um reset no meio não serve de novo, T-RST).
 - Sem hora válida (NTP nunca sincronizou desde o boot) → não dispara agenda e publica alerta `NO_TIME`.
 - Refeição perdida (dispositivo desligado no horário) **não** é servida depois — evita refeição dupla.
 
@@ -148,7 +158,7 @@ IDLE → PRECHECK → DESTRAVA → BASELINE → GIRA → ASSENTA → PESA ─┬
 - Wi-Fi em modem sleep (`WiFi.setSleep(true)`).
 - Botão (GPIO 23): clique → serve porção padrão (config `button_grams`, 20 g). BOOT 10 s → apaga Wi-Fi e abre portal.
 - LED (GPIO 22): aceso = ok; piscando lento = sem Wi-Fi; piscando rápido = erro (`NO_FLOW`, bateria).
-- **OTA** (`ArduinoOTA` / atualização pelo Wi-Fi): depois de montado, não é preciso abrir o tubo para regravar.
+- **OTA** (`ArduinoOTA`, senha `OTA_PASS`): depois de montado, não é preciso abrir o tubo para regravar. Ao iniciar o OTA o rotor para e a dosagem é cancelada.
 
 ## 9. Configuração de credenciais
 
@@ -159,6 +169,7 @@ IDLE → PRECHECK → DESTRAVA → BASELINE → GIRA → ASSENTA → PESA ─┬
 #define MQTT_PORT 8883
 #define MQTT_USER "..."
 #define MQTT_PASS "..."
+#define OTA_PASS  "..."
 ```
 
 Certificado raiz do broker (ISRG Root X1 para HiveMQ Cloud) em `include/ca_cert.h`.
