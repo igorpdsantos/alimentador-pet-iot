@@ -59,7 +59,7 @@ export function App() {
       <Toasts />
       {pairing.demo && (
         <div className="demo-strip" role="status">
-          <span className="grow">Modo demonstração: dados simulados</span>
+          <span className="grow">Demonstração: dados simulados</span>
           <button type="button" onClick={() => void unpair()}>Sair</button>
         </div>
       )}

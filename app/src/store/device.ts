@@ -12,12 +12,14 @@ export type ActiveFeed = { feedId: number; targetG: number; servedG: number; sou
 export type Toast = { id: number; text: string; tone: 'info' | 'warn' | 'bad' };
 
 const PAIRING_KEY = 'alimentador.pairing';
+const TUTOR_KEY = 'alimentador.tutor';
 const PAIR_TIMEOUT_MS = 30000;
 const HISTORY_PAGE = 50;
 const DEMO_PAIRING: Pairing = { deviceId: 'pf-demo', url: '', demo: true };
 
 type DeviceState = {
   pairing: Pairing | null;
+  tutorName: string; // nome de quem usa o app: fica só neste celular, não vai para o alimentador
   conn: ConnState;
   connDetail?: string;
   online: boolean | null;
@@ -31,6 +33,7 @@ type DeviceState = {
   syncing: boolean;
 
   init: () => void;
+  setTutorName: (name: string) => void;
   pair: (p: Pairing) => Promise<void>;
   startDemo: () => Promise<void>;
   demoScenario: (s: DemoScenario) => void;
@@ -51,6 +54,14 @@ export const defaultBroker = (): BrokerConfig => ({
   username: import.meta.env.VITE_MQTT_USER ?? '',
   password: import.meta.env.VITE_MQTT_PASS ?? '',
 });
+
+function loadTutorName() {
+  try {
+    return localStorage.getItem(TUTOR_KEY) ?? '';
+  } catch {
+    return '';
+  }
+}
 
 function loadPairing(): Pairing | null {
   try {
@@ -123,13 +134,14 @@ export const useDevice = create<DeviceState>((set, get) => {
 
   // A demonstração sempre recomeça do zero: cada abertura gera um histórico novo, com os horários de agora.
   async function openDemo() {
-    await db.deleteHistory(DEMO_PAIRING.deviceId);
     await db.openHistory(DEMO_PAIRING.deviceId);
+    await db.clearHistory();
     connect(DEMO_PAIRING);
   }
 
   return {
     pairing: null,
+    tutorName: loadTutorName(),
     conn: 'idle',
     online: null,
     status: null,
@@ -140,6 +152,15 @@ export const useDevice = create<DeviceState>((set, get) => {
     toasts: [],
     historyVersion: 0,
     syncing: false,
+
+    setTutorName(name) {
+      set({ tutorName: name });
+      try {
+        localStorage.setItem(TUTOR_KEY, name);
+      } catch {
+        // modo privado: o nome vale só para esta sessão
+      }
+    },
 
     init() {
       // ?demo no link abre a demonstração direto, mas nunca troca um pareamento que já existe.
@@ -199,7 +220,7 @@ export const useDevice = create<DeviceState>((set, get) => {
       client?.close();
       client = null;
       savePairing(null);
-      if (p) await db.deleteHistory(p.deviceId);
+      if (p && !p.demo) await db.deleteHistory(p.deviceId); // a demonstração se limpa ao abrir de novo
       set({ pairing: null, conn: 'idle', online: null, status: null, config: null, feed: null, lastResult: null });
     },
 

@@ -48,6 +48,13 @@ export async function consumptionSince(ts: number): Promise<ConsumptionRecord[]>
   return need().getAllFromIndex('consumption', 'ts', IDBKeyRange.lowerBound(ts)) as Promise<ConsumptionRecord[]>;
 }
 
+// Esvazia o banco aberto sem apagá-lo: apagar fica bloqueado se o app estiver aberto em outra aba.
+export async function clearHistory() {
+  const stores = ['feeds', 'consumption', 'meta'];
+  const tx = need().transaction(stores, 'readwrite');
+  await Promise.all([...stores.map((s) => tx.objectStore(s).clear()), tx.done]);
+}
+
 export async function deleteHistory(deviceId: string) {
   const name = `alimentador-${deviceId}`;
   if (dbName === name) {

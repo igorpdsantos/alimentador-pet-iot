@@ -49,6 +49,8 @@ app/
 5. Botão **Ver demonstração** entra no modo demonstração (§6), sem pedir código nem broker.
 
 ### Início
+Saudação com o nome do tutor ("Olá, Ana", ou "Olá!" sem nome) e o nome do pet numa etiqueta. O nome do tutor é opcional, pedido no Pareamento e em Ajustes, e fica só no celular (`localStorage`), fora do contrato MQTT.
+
 - Online/offline (com "visto há X min" quando offline) e avisos ativos.
 - **Ração na vasilha** (g) e "sem vasilha"; **próxima refeição**.
 - **Reservatório**: % restante, gramas e "dura mais ~N dias"; botão **Reabasteci** (cheio ou informar gramas).
@@ -107,7 +109,7 @@ interface de `FeederClient` (`connect`, `close`, `request`) e porta a lógica do
 mudam. Nenhuma mensagem sai do aparelho.
 
 - Entrada: botão no Pareamento ou o link `?demo`, que nunca substitui um pareamento real já salvo.
-- A faixa "Modo demonstração: dados simulados" fica sempre visível, com **Sair**. Os dados são inventados e não valem como
+- A faixa "Demonstração: dados simulados" fica sempre visível, com **Sair**. Os dados são inventados e não valem como
   resultado de teste.
 - Cada abertura recomeça do zero, com 7 dias de histórico novo; o que foi mudado na agenda não é mantido.
 - Ajustes ganha **Simular situações**: cortar a tomada, tirar a vasilha, acabar a ração e travar o rotor na próxima refeição.

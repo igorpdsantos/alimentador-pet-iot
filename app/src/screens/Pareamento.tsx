@@ -11,6 +11,8 @@ const hasBarcode = typeof window !== 'undefined' && 'BarcodeDetector' in window;
 export function Pareamento() {
   const pair = useDevice((s) => s.pair);
   const startDemo = useDevice((s) => s.startDemo);
+  const tutorName = useDevice((s) => s.tutorName);
+  const setTutorName = useDevice((s) => s.setTutorName);
   const broker = defaultBroker();
   const [deviceId, setDeviceId] = useState('');
   const [url, setUrl] = useState(broker.url);
@@ -42,6 +44,13 @@ export function Pareamento() {
   return (
     <main className="screen no-tabs">
       <ScreenHead title="Alimentador de Pet" subtitle="Vamos conectar o seu alimentador" />
+
+      <section className="card">
+        <label className="field">
+          <span>Como podemos chamar você? (opcional)</span>
+          <input className="input" value={tutorName} maxLength={32} autoComplete="given-name" onChange={(e) => setTutorName(e.target.value)} placeholder="Seu nome" />
+        </label>
+      </section>
 
       <section className="card">
         <h2>Ainda não tem o alimentador?</h2>

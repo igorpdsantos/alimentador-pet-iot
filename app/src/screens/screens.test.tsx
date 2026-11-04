@@ -12,19 +12,27 @@ const config = S.config.parse(fixture('config.json'));
 beforeEach(() => {
   useDevice.setState({
     pairing: { deviceId: 'pf-a1b2c3', url: 'ws://x' }, conn: 'connected', online: true,
-    status, statusAt: Date.now(), config, feed: null, lastResult: null, toasts: [],
+    status, statusAt: Date.now(), config, feed: null, lastResult: null, toasts: [], tutorName: '',
   });
 });
 
 describe('Início', () => {
   it('mostra vasilha, reservatório, bateria e próxima refeição', () => {
     render(<Inicio />);
-    expect(screen.getByText('Olá, Thor')).toBeInTheDocument();
+    expect(screen.getByText('Olá!')).toBeInTheDocument();
+    expect(screen.getByText('Thor')).toBeInTheDocument(); // o pet aparece como pet, não na saudação
     expect(screen.getByText('43 g')).toBeInTheDocument(); // 42,5 g arredondado no cartão
     expect(screen.getByText('76%')).toBeInTheDocument();
     expect(screen.getByText('18:00')).toBeInTheDocument();
     expect(screen.getByText(/Pilhas de reserva 78%/)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Alimentar agora/ })).toBeEnabled();
+  });
+
+  it('cumprimenta o tutor pelo nome, nunca o pet', () => {
+    useDevice.setState({ tutorName: 'Ana' });
+    render(<Inicio />);
+    expect(screen.getByText('Olá, Ana')).toBeInTheDocument();
+    expect(screen.queryByText('Olá, Thor')).not.toBeInTheDocument();
   });
 
   it('offline desabilita os comandos', () => {

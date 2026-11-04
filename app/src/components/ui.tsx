@@ -129,12 +129,13 @@ export function Banner({ tone, children, action }: { tone: 'warn' | 'bad' | 'inf
   );
 }
 
-export function ScreenHead({ title, subtitle, right }: { title: string; subtitle?: ReactNode; right?: ReactNode }) {
+export function ScreenHead({ title, subtitle, left, right }: { title: string; subtitle?: ReactNode; left?: ReactNode; right?: ReactNode }) {
   return (
     <header className="screen-head">
+      {left}
       <div className="grow">
         <h1>{title}</h1>
-        {subtitle && <p className="subtitle">{subtitle}</p>}
+        {subtitle && <div className="subtitle">{subtitle}</div>}
       </div>
       {right}
     </header>

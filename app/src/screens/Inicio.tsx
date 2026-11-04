@@ -28,6 +28,7 @@ export function Inicio() {
   }, []);
 
   const petName = config?.settings.pet_name;
+  const tutorName = useDevice((s) => s.tutorName).trim();
   const offlineText =
     conn !== 'connected' ? 'Sem conexão com a internet' : online === false ? 'Alimentador offline' : null;
   const visibleAlerts = (status?.alerts ?? []).filter((a) => !['ON_BATTERY', 'LOW_BATTERY'].includes(a));
@@ -35,15 +36,18 @@ export function Inicio() {
   return (
     <main className="screen">
       <ScreenHead
-        title={petName ? `Olá, ${petName}` : 'Início'}
+        title={tutorName ? `Olá, ${tutorName}` : 'Olá!'}
         subtitle={
-          offlineText ? (
-            <Pill tone="bad" dot>{offlineText}{statusAt ? ` · visto ${ago(statusAt)}` : ''}</Pill>
-          ) : online ? (
-            <Pill tone="ok" dot>Online</Pill>
-          ) : (
-            <Pill tone="muted" dot>Conectando…</Pill>
-          )
+          <>
+            {petName && <Pill tone="info"><Icon name="paw" size={14} /> {petName}</Pill>}
+            {offlineText ? (
+              <Pill tone="bad" dot>{offlineText}{statusAt ? ` · visto ${ago(statusAt)}` : ''}</Pill>
+            ) : online ? (
+              <Pill tone="ok" dot>Online</Pill>
+            ) : (
+              <Pill tone="muted" dot>Conectando…</Pill>
+            )}
+          </>
         }
       />
 
@@ -149,7 +153,7 @@ export function Inicio() {
               <>
                 <div className="row between">
                   <span className="mid">Pilhas de reserva {status.battery.pct}%</span>
-                  <span className="small num">{volts(status.battery.v)}</span>
+                  <span className="small num" style={{ flex: 'none' }}>{volts(status.battery.v)}</span>
                 </div>
                 <Bar
                   value={status.battery.pct}

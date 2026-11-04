@@ -56,7 +56,7 @@ export function Historico() {
             <div className="list">
               {feeds.slice(0, 100).map((f) => (
                 <div key={f.seq} className="list-item">
-                  <div style={{ minWidth: 58 }}>
+                  <div className="feed-time">
                     <div className="mid">{time(f.ts)}</div>
                     <div className="small">{dayMonth(f.ts)}</div>
                   </div>
@@ -64,13 +64,15 @@ export function Historico() {
                     <div className="num" style={{ fontWeight: 600 }}>
                       {grams(f.served_g)} <span className="small">de {grams(f.target_g)}</span>
                     </div>
-                    <div className="small">
-                      {SOURCE_TEXT[f.source]}
-                      {f.unjam_tries > 0 && ` · destravou ${f.unjam_tries}×`}
-                      {f.interference && ' · pet mexeu na vasilha'}
+                    <div className="feed-tags">
+                      <Pill tone={STATUS_TONE[f.status]}>{STATUS_TEXT[f.status]}</Pill>
+                      <span className="small">
+                        {SOURCE_TEXT[f.source]}
+                        {f.unjam_tries > 0 && ` · destravou ${f.unjam_tries}×`}
+                        {f.interference && ' · pet mexeu na vasilha'}
+                      </span>
                     </div>
                   </div>
-                  <Pill tone={STATUS_TONE[f.status]}>{STATUS_TEXT[f.status]}</Pill>
                 </div>
               ))}
             </div>

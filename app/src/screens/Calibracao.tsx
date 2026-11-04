@@ -70,7 +70,7 @@ export function Calibracao({ back }: { back: () => void }) {
     <main className="screen no-tabs">
       <ScreenHead
         title="Calibrar balança"
-        right={<button type="button" className="icon-btn" onClick={back} aria-label="Voltar"><Icon name="back" /></button>}
+        left={<button type="button" className="icon-btn" onClick={back} aria-label="Voltar"><Icon name="back" /></button>}
       />
       <div className="steps" aria-label={`Passo ${Math.min(step + 1, 3)} de 3`}>
         {[0, 1, 2].map((i) => <span key={i} className={i <= step ? 'on' : ''} />)}

@@ -12,6 +12,8 @@ export function Ajustes({ go }: { go: (route: string) => void }) {
   const pairing = useDevice((s) => s.pairing);
   const unpair = useDevice((s) => s.unpair);
   const toast = useDevice((s) => s.toast);
+  const tutorName = useDevice((s) => s.tutorName);
+  const setTutorName = useDevice((s) => s.setTutorName);
   const canCommand = useCanCommand();
   const settings = useCommand();
   const maint = useCommand();
@@ -52,6 +54,15 @@ export function Ajustes({ go }: { go: (route: string) => void }) {
       <ScreenHead title="Ajustes" />
 
       {pairing?.demo && <DemoScenarios />}
+
+      <section className="card">
+        <h2>Você</h2>
+        <label className="field">
+          <span>Seu nome</span>
+          <input className="input" value={tutorName} maxLength={32} autoComplete="given-name" onChange={(e) => setTutorName(e.target.value)} />
+          <span className="hint">Usado na saudação. Fica só neste celular.</span>
+        </label>
+      </section>
 
       <section className="card">
         <h2>Pet e porções</h2>
@@ -167,10 +178,10 @@ function DemoScenarios() {
       <h2>Simular situações</h2>
       <span className="hint">Provoque um problema aqui e veja a reação na tela Início.</span>
       <div className="grid-2">
-        <Button onClick={() => scenario('power')}>{onMains ? 'Cortar a tomada' : 'Religar a tomada'}</Button>
-        <Button onClick={() => scenario('bowl')}>{bowl ? 'Tirar a vasilha' : 'Pôr a vasilha'}</Button>
-        <Button onClick={() => scenario('empty')}>Acabar a ração</Button>
-        <Button onClick={() => { scenario('jam'); toast('A próxima refeição vai travar'); }}>Travar o rotor</Button>
+        <Button onClick={() => scenario('power')}>{onMains ? 'Cortar tomada' : 'Religar tomada'}</Button>
+        <Button onClick={() => scenario('bowl')}>{bowl ? 'Tirar vasilha' : 'Pôr vasilha'}</Button>
+        <Button onClick={() => scenario('empty')}>Acabar ração</Button>
+        <Button onClick={() => { scenario('jam'); toast('A próxima refeição vai travar'); }}>Travar rotor</Button>
       </div>
     </section>
   );
@@ -180,7 +191,7 @@ function Info({ label, value }: { label: string; value: string }) {
   return (
     <div className="list-item">
       <span className="grow small">{label}</span>
-      <span className="num" style={{ fontWeight: 600 }}>{value}</span>
+      <span className="num" style={{ fontWeight: 600, textAlign: 'right' }}>{value}</span>
     </div>
   );
 }
