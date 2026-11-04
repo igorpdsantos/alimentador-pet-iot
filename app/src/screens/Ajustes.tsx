@@ -51,6 +51,8 @@ export function Ajustes({ go }: { go: (route: string) => void }) {
     <main className="screen">
       <ScreenHead title="Ajustes" />
 
+      {pairing?.demo && <DemoScenarios />}
+
       <section className="card">
         <h2>Pet e porções</h2>
         <label className="field">
@@ -150,6 +152,27 @@ export function Ajustes({ go }: { go: (route: string) => void }) {
       </section>
       <p className="hint" style={{ textAlign: 'center' }}>Alimentador de Pet IoT · app 0.1.0</p>
     </main>
+  );
+}
+
+// Só na demonstração: provoca as situações que, no alimentador real, viriam do hardware.
+function DemoScenarios() {
+  const status = useDevice((s) => s.status);
+  const scenario = useDevice((s) => s.demoScenario);
+  const toast = useDevice((s) => s.toast);
+  const onMains = status?.power.source !== 'battery';
+  const bowl = status?.bowl.present !== false;
+  return (
+    <section className="card">
+      <h2>Simular situações</h2>
+      <span className="hint">Provoque um problema aqui e veja a reação na tela Início.</span>
+      <div className="grid-2">
+        <Button onClick={() => scenario('power')}>{onMains ? 'Cortar a tomada' : 'Religar a tomada'}</Button>
+        <Button onClick={() => scenario('bowl')}>{bowl ? 'Tirar a vasilha' : 'Pôr a vasilha'}</Button>
+        <Button onClick={() => scenario('empty')}>Acabar a ração</Button>
+        <Button onClick={() => { scenario('jam'); toast('A próxima refeição vai travar'); }}>Travar o rotor</Button>
+      </div>
+    </section>
   );
 }
 

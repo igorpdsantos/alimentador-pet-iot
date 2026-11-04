@@ -22,6 +22,7 @@ const readRoute = () => window.location.hash.replace(/^#\/?/, '');
 export function App() {
   const pairing = useDevice((s) => s.pairing);
   const init = useDevice((s) => s.init);
+  const unpair = useDevice((s) => s.unpair);
   const [route, setRoute] = useState(readRoute());
 
   useEffect(() => init(), [init]);
@@ -56,6 +57,12 @@ export function App() {
   return (
     <div className="app">
       <Toasts />
+      {pairing.demo && (
+        <div className="demo-strip" role="status">
+          <span className="grow">Modo demonstração: dados simulados</span>
+          <button type="button" onClick={() => void unpair()}>Sair</button>
+        </div>
+      )}
       {screen}
       {route !== 'calibracao' && (
         <div className="tabbar">

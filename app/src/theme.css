@@ -227,3 +227,12 @@ h1, h2, h3, p { margin: 0; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* Faixa do modo demonstração: sempre visível, para ninguém confundir os dados simulados com um alimentador real */
+.demo-strip {
+  position: sticky; top: 0; z-index: 30; display: flex; align-items: center; gap: 12px;
+  padding: calc(env(safe-area-inset-top) + 6px) 16px 6px;
+  background: var(--warn-soft); color: var(--warn); font-size: 14px; font-weight: 600;
+}
+.demo-strip button { min-height: 44px; min-width: 44px; padding: 0 8px; border: 0; background: none; color: inherit; font: inherit; text-decoration: underline; cursor: pointer; }
+.demo-strip + .screen { padding-top: 16px; }

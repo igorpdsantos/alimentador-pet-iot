@@ -1,18 +1,20 @@
 // Estado do app: pareamento, conexão, último status/config, refeição em andamento e avisos.
 import { create } from 'zustand';
-import { FeederClient, FeederError, type BrokerConfig, type ConnState } from '../mqtt/client';
+import { FeederClient, FeederError, type BrokerConfig, type ConnState, type Handlers } from '../mqtt/client';
 import type { CommandMap, CommandName } from '../protocol/commands';
 import type { Config, DeviceEvent, FeedRecord, Status } from '../protocol/schemas';
 import { alertText } from '../protocol/messages';
 import * as db from '../db/history';
+import { DemoClient, type DemoScenario } from '../demo/DemoClient';
 
-export type Pairing = BrokerConfig & { deviceId: string };
+export type Pairing = BrokerConfig & { deviceId: string; demo?: boolean };
 export type ActiveFeed = { feedId: number; targetG: number; servedG: number; source: string };
 export type Toast = { id: number; text: string; tone: 'info' | 'warn' | 'bad' };
 
 const PAIRING_KEY = 'alimentador.pairing';
 const PAIR_TIMEOUT_MS = 30000;
 const HISTORY_PAGE = 50;
+const DEMO_PAIRING: Pairing = { deviceId: 'pf-demo', url: '', demo: true };
 
 type DeviceState = {
   pairing: Pairing | null;
@@ -30,6 +32,8 @@ type DeviceState = {
 
   init: () => void;
   pair: (p: Pairing) => Promise<void>;
+  startDemo: () => Promise<void>;
+  demoScenario: (s: DemoScenario) => void;
   unpair: () => Promise<void>;
   command: <K extends CommandName>(name: K, args: CommandMap[K]['args'], reqId?: string) => Promise<CommandMap[K]['data']>;
   syncHistory: () => Promise<void>;
@@ -38,7 +42,7 @@ type DeviceState = {
   clearResult: () => void;
 };
 
-let client: FeederClient | null = null;
+let client: Pick<FeederClient, 'connect' | 'close' | 'request'> | null = null;
 let toastSeq = 0;
 let onlineWaiter: ((online: boolean) => void) | null = null;
 
@@ -96,7 +100,7 @@ export const useDevice = create<DeviceState>((set, get) => {
   function connect(p: Pairing) {
     client?.close();
     set({ conn: 'connecting', online: null, status: null, statusAt: null, config: null, feed: null });
-    client = new FeederClient(p.deviceId, {
+    const handlers: Handlers = {
       onConn: (conn, connDetail) => {
         const wasConnected = get().conn === 'connected';
         set({ conn, connDetail });
@@ -112,8 +116,16 @@ export const useDevice = create<DeviceState>((set, get) => {
       },
       onConfig: (config) => set({ config }),
       onEvent,
-    });
+    };
+    client = p.demo ? new DemoClient(handlers) : new FeederClient(p.deviceId, handlers);
     client.connect(p);
+  }
+
+  // A demonstração sempre recomeça do zero: cada abertura gera um histórico novo, com os horários de agora.
+  async function openDemo() {
+    await db.deleteHistory(DEMO_PAIRING.deviceId);
+    await db.openHistory(DEMO_PAIRING.deviceId);
+    connect(DEMO_PAIRING);
   }
 
   return {
@@ -130,10 +142,17 @@ export const useDevice = create<DeviceState>((set, get) => {
     syncing: false,
 
     init() {
-      const p = loadPairing();
+      // ?demo no link abre a demonstração direto, mas nunca troca um pareamento que já existe.
+      const wantsDemo = new URLSearchParams(window.location.search).has('demo');
+      const p = loadPairing() ?? (wantsDemo ? DEMO_PAIRING : null);
       if (!p || get().pairing) return;
       set({ pairing: p });
-      db.openHistory(p.deviceId).then(() => connect(p));
+      if (p.demo) {
+        savePairing(p);
+        void openDemo();
+      } else {
+        db.openHistory(p.deviceId).then(() => connect(p));
+      }
     },
 
     async pair(p) {
@@ -163,6 +182,16 @@ export const useDevice = create<DeviceState>((set, get) => {
       }
       savePairing(p);
       set({ pairing: p });
+    },
+
+    async startDemo() {
+      savePairing(DEMO_PAIRING);
+      set({ pairing: DEMO_PAIRING });
+      await openDemo();
+    },
+
+    demoScenario(s) {
+      if (client instanceof DemoClient) client.scenario(s);
     },
 
     async unpair() {

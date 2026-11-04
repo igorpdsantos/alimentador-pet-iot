@@ -31,6 +31,7 @@ app/
     protocol/                     schemas zod, tópicos, comandos e textos pt-BR do contrato (único lugar com nomes de tópico)
     mqtt/client.ts                conexão, pedido/resposta por req_id com timeout de 8 s
     store/device.ts               zustand: pareamento, conexão, status, config, refeição em andamento, avisos
+    demo/DemoClient.ts            modo demonstração: o alimentador simulado dentro do navegador (§6)
     db/history.ts                 IndexedDB: feeds, consumption, last_seq
     lib/                          métricas dos gráficos e formatação pt-BR
     components/                   botões, folhas, stepper, gráficos, ícones
@@ -45,6 +46,7 @@ app/
 2. Usuário digita o `device_id` (ou lê o QR da etiqueta pela câmera, onde o navegador tem `BarcodeDetector` — QR contém `pf-xxxxxx`).
 3. Broker (URL, usuário, senha) vem preenchido do `.env`; dá para trocar em "Servidor MQTT (avançado)".
 4. App assina `petfeeder/{id}/online` e espera `true` (timeout 30 s) → sucesso.
+5. Botão **Ver demonstração** entra no modo demonstração (§6), sem pedir código nem broker.
 
 ### Início
 - Online/offline (com "visto há X min" quando offline) e avisos ativos.
@@ -97,3 +99,16 @@ app/
 falsos, para desenvolver o app sem hardware: responde comandos, simula a dosagem (giros com ruído, falha `NO_FLOW`
 configurável), publica `status`, `config` e eventos, e gera 7 dias de histórico. Com `--local` sobe um broker
 próprio em `ws://localhost:9001/mqtt` (sem internet nem conta no HiveMQ).
+
+## 6. Modo demonstração
+
+Para mostrar o app no celular sem alimentador, broker nem computador ligado (D22). `src/demo/DemoClient.ts` tem a mesma
+interface de `FeederClient` (`connect`, `close`, `request`) e porta a lógica do simulador para o navegador; as telas não
+mudam. Nenhuma mensagem sai do aparelho.
+
+- Entrada: botão no Pareamento ou o link `?demo`, que nunca substitui um pareamento real já salvo.
+- A faixa "Modo demonstração: dados simulados" fica sempre visível, com **Sair**. Os dados são inventados e não valem como
+  resultado de teste.
+- Cada abertura recomeça do zero, com 7 dias de histórico novo; o que foi mudado na agenda não é mantido.
+- Ajustes ganha **Simular situações**: cortar a tomada, tirar a vasilha, acabar a ração e travar o rotor na próxima refeição.
+- Mudou o contrato → atualizar também o `DemoClient`; seus testes validam tudo o que ele gera com os schemas zod.

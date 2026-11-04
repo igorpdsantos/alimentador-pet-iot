@@ -10,6 +10,7 @@ const hasBarcode = typeof window !== 'undefined' && 'BarcodeDetector' in window;
 
 export function Pareamento() {
   const pair = useDevice((s) => s.pair);
+  const startDemo = useDevice((s) => s.startDemo);
   const broker = defaultBroker();
   const [deviceId, setDeviceId] = useState('');
   const [url, setUrl] = useState(broker.url);
@@ -41,6 +42,12 @@ export function Pareamento() {
   return (
     <main className="screen no-tabs">
       <ScreenHead title="Alimentador de Pet" subtitle="Vamos conectar o seu alimentador" />
+
+      <section className="card">
+        <h2>Ainda não tem o alimentador?</h2>
+        <p className="small" style={{ margin: 0 }}>Conheça todas as telas com um alimentador simulado no próprio celular. Não precisa de servidor nem de cadastro.</p>
+        <Button block onClick={() => void startDemo()}>Ver demonstração</Button>
+      </section>
 
       <section className="card" aria-labelledby="passos">
         <h2 id="passos">Antes de começar</h2>

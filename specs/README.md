@@ -54,6 +54,7 @@ Documentação para o grupo (em `docs/`): [componentes.md](../docs/componentes.m
 | D19 | **App como PWA** (Vite + React + TypeScript), no lugar do Expo (26/10/2026) | Abre em qualquer celular pelo navegador e instala na tela inicial, sem loja nem Expo Go; mesmo código roda no computador da apresentação; dá para publicar no GitHub Pages |
 | D20 | **Lógica pura do firmware em `firmware/lib/core`** (dosagem, bateria, agenda, reservatório, protocolo, histórico) | Compila igual no ESP32 e no PC; 40 testes nativos usam os mesmos fixtures do app |
 | D21 | **Rede de configuração com senha** (`PORTAL_PASS` em `secrets.h`, 8–63 caracteres, WPA2), impressa na etiqueta junto do QR do código `pf-xxxxxx` (era A6, 27/10/2026) | Sem senha, alguém por perto podia entrar no portal aberto e configurar o alimentador em outra rede (`docs/seguranca.md`) |
+| D22 | **Modo demonstração no próprio app** (`DemoClient`, specs/06 §6), em vez de hospedar simulador e broker (04/11/2026) | Permite mostrar todas as telas no celular, inclusive sem internet, sem manter nada ligado. Faixa fixa deixa claro que os dados são simulados |
 | D11 | **Projeto tolerante** às peças compradas: tubo encaixa direto na caixa (sem cap embaixo), rasgos na célula, envelope de vasilha | A equipe ainda não tem as peças; dá para imprimir antes de comprar |
 
 ## Decisões em aberto

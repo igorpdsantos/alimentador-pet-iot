@@ -10,6 +10,13 @@ push na `main`; não leva credencial nenhuma — o broker é informado no paream
 
 **Telas:** Pareamento · Início · Agenda · Histórico (lista, gráficos e precisão da dose) · Ajustes · Calibração da balança
 
+## Demonstração no celular (sem alimentador e sem servidor)
+
+Abra <https://igorpdsantos.github.io/alimentador-pet-iot/app/?demo> ou toque em **Ver demonstração** na tela inicial e
+instale pelo navegador (Adicionar à tela inicial). O alimentador é simulado dentro do próprio app, com 7 dias de
+histórico inventado e a faixa "Modo demonstração" sempre visível. Depois de aberto uma vez, funciona sem internet.
+Em **Ajustes → Simular situações** dá para cortar a tomada, tirar a vasilha, acabar a ração e travar o rotor.
+
 ## Testar sem o alimentador (simulador)
 
 Em um terminal, suba o simulador com broker próprio:
