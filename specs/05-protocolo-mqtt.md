@@ -5,7 +5,10 @@ app (`app/src/protocol/`) e simulador (`tools/simulador/`) no mesmo passo. Incre
 quebrar compatibilidade.
 
 - Versão do protocolo: `proto: 1`
-- Broker: HiveMQ Cloud. ESP32 em `mqtts://…:8883`; app em `wss://…:8884/mqtt`.
+- Broker: EMQX Cloud Serverless (D23). ESP32 em `mqtts://…:8883`; app em `wss://…:8084/mqtt`.
+- Autenticação (D24): um usuário por alimentador, nome = `device_id`, senha = a parte secreta do código de
+  pareamento `pf-xxxxxx-segredo` (`PAIR_SECRET` no firmware). ESP32 e app entram com o mesmo usuário, com
+  client id diferentes (`device_id` e `app-…`). O broker só libera `petfeeder/{device_id}/#` para esse usuário.
 - Payload: JSON UTF-8. Tempo: `ts` em segundos Unix (UTC). Peso em gramas com 1 casa decimal.
 - `{id}` = `device_id` (ex.: `pf-a1b2c3`).
 

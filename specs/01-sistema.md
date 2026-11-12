@@ -68,9 +68,9 @@ definido → **3. Informa** no app o que foi servido.
 
 ```
 ┌──────────────── Dispositivo ────────────────┐          ┌──────────────┐          ┌───────────┐
-│ 12 V (+6×AA) → 5 V ───┬─ ESP32 (VIN)        │  MQTT    │ HiveMQ Cloud │  MQTT    │ App PWA   │
+│ 12 V (+6×AA) → 5 V ───┬─ ESP32 (VIN)        │  MQTT    │  EMQX Cloud  │  MQTT    │ App PWA   │
 │                        └─ Servo MG90S        │◄──TLS───►│  (broker)    │◄──WSS───►│ (celular) │
-│ Divisor R1/R2 → GPIO34 (bateria)             │  8883    └──────────────┘  8884    └───────────┘
+│ Divisor R1/R2 → GPIO34 (bateria)             │  8883    └──────────────┘  8084    └───────────┘
 │ Célula 5 kg → HX711 → GPIO16/4 (balança)     │
 │ Servo 360° → GPIO18 (rotor dosador)          │
 └──────────────────────────────────────────────┘

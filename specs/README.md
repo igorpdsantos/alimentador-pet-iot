@@ -35,7 +35,7 @@ Documentação para o grupo (em `docs/`): [componentes.md](../docs/componentes.m
 | ID | Decisão | Motivo |
 |----|---------|--------|
 | D1 | Firmware em **PlatformIO + Arduino framework** (não ESP-IDF puro como a referência) | Bibliotecas prontas para HX711, servo, Wi-Fi manager; curva menor para a equipe. FreeRTOS continua disponível. |
-| D2 | Comunicação por **MQTT com broker na nuvem (HiveMQ Cloud, plano gratuito, TLS)** | Funciona fora da rede de casa, igual à referência, sem backend próprio. |
+| D2 | Comunicação por **MQTT com broker na nuvem (plano gratuito, TLS)**; era HiveMQ Cloud, hoje EMQX Cloud (D23) | Funciona fora da rede de casa, igual à referência, sem backend próprio. |
 | D3 | ~~App em Expo (React Native)~~ → ver D19 | — |
 | D4 | **Histórico guardado no ESP32** (buffer circular em flash) e sincronizado pelo app | Sem servidor; o app pode ficar fechado e não perde eventos. |
 | D5 | Wi-Fi configurado por **portal cativo** (WiFiManager) | Sem credenciais no código. |
@@ -55,6 +55,8 @@ Documentação para o grupo (em `docs/`): [componentes.md](../docs/componentes.m
 | D20 | **Lógica pura do firmware em `firmware/lib/core`** (dosagem, bateria, agenda, reservatório, protocolo, histórico) | Compila igual no ESP32 e no PC; 40 testes nativos usam os mesmos fixtures do app |
 | D21 | **Rede de configuração com senha** (`PORTAL_PASS` em `secrets.h`, 8–63 caracteres, WPA2), impressa na etiqueta junto do QR do código `pf-xxxxxx` (era A6, 27/10/2026) | Sem senha, alguém por perto podia entrar no portal aberto e configurar o alimentador em outra rede (`docs/seguranca.md`) |
 | D22 | **Modo demonstração no próprio app** (`DemoClient`, specs/06 §6), em vez de hospedar simulador e broker (04/11/2026) | Permite mostrar todas as telas no celular, inclusive sem internet, sem manter nada ligado. Faixa fixa deixa claro que os dados são simulados |
+| D23 | **Broker EMQX Cloud Serverless** (região us-east-1, limite de gasto US$ 0) no lugar do HiveMQ Cloud (11/11/2026). ESP32 em 8883, app em `wss://…:8084/mqtt`; firmware confia no DigiCert Global Root G2 + Global Root CA | A HiveMQ encerrou o plano Serverless gratuito (sem clusters novos; os existentes apagados em 31/12/2026). O EMQX Serverless dá 1 milhão de minutos de sessão por mês grátis, com TLS e usuário/senha, sem mudar o contrato MQTT |
+| D24 | **Código de pareamento com segredo** `pf-xxxxxx-segredo`: usuário do broker = `device_id`, senha = segredo (`PAIR_SECRET`), ACL só em `petfeeder/{device_id}/#`; o app publicado leva só o endereço do broker. Etiqueta com QR do Wi-Fi e QR que abre o app com o código (`tools/etiqueta`) (12/11/2026) | O usuário digita só o código, sem "avançado". Embutir usuário/senha no app público deixaria qualquer visitante do site controlar qualquer alimentador; assim o código é a chave e um código não alcança outro alimentador |
 | D11 | **Projeto tolerante** às peças compradas: tubo encaixa direto na caixa (sem cap embaixo), rasgos na célula, envelope de vasilha | A equipe ainda não tem as peças; dá para imprimir antes de comprar |
 
 ## Decisões em aberto

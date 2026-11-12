@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { fixture, fixtureNames } from '../test/fixtures';
 import * as S from './schemas';
 import { buildCommand, feedsPage, consumptionPage } from './commands';
-import { parseTopic, topic } from './topics';
+import { parsePairCode, parseTopic, topic } from './topics';
 
 describe('schemas contra os fixtures do contrato', () => {
   it('status e config', () => {
@@ -50,5 +50,21 @@ describe('comandos', () => {
     expect(topic('pf-a1b2c3', 'cmd')).toBe('petfeeder/pf-a1b2c3/cmd');
     expect(parseTopic('petfeeder/pf-a1b2c3/status')).toEqual({ deviceId: 'pf-a1b2c3', kind: 'status' });
     expect(parseTopic('outro/pf-a1b2c3/status')).toBeNull();
+  });
+});
+
+describe('código de pareamento (D24)', () => {
+  it('separa device_id e segredo do código completo', () => {
+    expect(parsePairCode('pf-a1b2c3-k7m2q9xd')).toEqual({ deviceId: 'pf-a1b2c3', secret: 'k7m2q9xd' });
+    expect(parsePairCode('  PF-A1B2C3-K7M2Q9XD ')).toEqual({ deviceId: 'pf-a1b2c3', secret: 'k7m2q9xd' });
+  });
+  it('aceita só o device_id (broker informado à mão)', () => {
+    expect(parsePairCode('pf-sim001')).toEqual({ deviceId: 'pf-sim001' });
+  });
+  it('recusa código malformado ou segredo curto', () => {
+    expect(parsePairCode('6f172c')).toBeNull();
+    expect(parsePairCode('pf-a1b2c3-abc')).toBeNull();
+    expect(parsePairCode('pf-a1b2c3-')).toBeNull();
+    expect(parsePairCode('pf-a1b2c3-k7m2q9x!')).toBeNull();
   });
 });

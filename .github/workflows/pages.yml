@@ -31,9 +31,12 @@ jobs:
           node-version: 22
           cache: npm
           cache-dependency-path: app/package-lock.json
-      # Sem .env: o app publicado não leva credencial nenhuma; o broker é informado no pareamento.
+      # O app publicado leva só o endereço do broker (público). Usuário e senha vêm do código de pareamento
+      # pf-xxxxxx-segredo de cada alimentador (D24); nenhuma credencial vai no app.
       - name: Testar e compilar o app
         working-directory: app
+        env:
+          VITE_MQTT_URL: wss://j0125f61.ala.us-east-1.emqxsl.com:8084/mqtt
         run: |
           npm ci
           npx vitest run

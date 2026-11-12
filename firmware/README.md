@@ -15,8 +15,9 @@ bateria, cumpre a agenda, guarda o histórico e conversa com o app por MQTT
 platformio.ini      envs esp32 (placa) e native (testes no PC)
 include/
   config.h          pinos, constantes e limites (espelha specs/02-hardware.md §2)
-  ca_cert.h         certificado raiz do broker (ISRG Root X1)
+  ca_cert.h         certificados raiz do broker (DigiCert Global Root G2 e Global Root CA)
   secrets.example.h modelo de credenciais; copie para secrets.h (fora do git)
+  wm_strings_pt.h   textos e visual do portal de configuração (pt-BR, cores do app)
 lib/core/src/       lógica pura, sem hardware: dosagem, bateria, agenda, reservatório, protocolo, histórico
 src/                hardware (rotor, balança, energia, NVS, LittleFS, rede) e tasks (control, monitor, ui, net)
 test/               testes da lib/core no PC, usando tools/protocol-fixtures
@@ -29,9 +30,10 @@ test/               testes da lib/core no PC, usando tools/protocol-fixtures
 ## Como compilar e gravar
 
 1. Instale o [PlatformIO](https://platformio.org/install) (extensão do VS Code ou `pip install platformio`).
-2. Copie `include/secrets.example.h` para `include/secrets.h` e preencha com o broker MQTT, a senha de OTA e a
-   senha da rede de configuração (`PORTAL_PASS`, 8 a 63 caracteres). Imprima essa senha numa **etiqueta** colada no
-   alimentador, junto do QR com o código `pf-xxxxxx`.
+2. Copie `include/secrets.example.h` para `include/secrets.h` e preencha: endereço do broker, `PAIR_SECRET`
+   (parte secreta do código de pareamento, gere aleatória), senha de OTA e senha da rede de configuração
+   (`PORTAL_PASS`, 8 a 63 caracteres). No EMQX, crie o usuário `pf-xxxxxx` com a senha `PAIR_SECRET` e a regra de
+   acesso só a `petfeeder/pf-xxxxxx/#` (passo a passo em [`docs/seguranca.md`](../docs/seguranca.md) §6).
 3. Rode os testes e compile:
 
 ```bash
@@ -47,11 +49,18 @@ pio device monitor
 ```
 
 Na primeira vez, o ESP32 abre a rede Wi-Fi **"Alimentador-XXXXXX"**: conecte o celular com a senha da etiqueta, escolha a rede da sua casa
-e anote o código `pf-xxxxxx` mostrado na página. Depois de montado, dá para regravar pelo Wi-Fi (OTA).
+e anote o código `pf-xxxxxx-…` mostrado na página. Depois de montado, dá para regravar pelo Wi-Fi (OTA).
+
+5. Gere a **etiqueta** (QR do Wi-Fi de configuração + QR que abre o app com o código), imprima em tamanho real e cole
+   no alimentador. Sai em `tools/etiqueta/saida/` (fora do git, porque tem a chave):
+
+```bash
+uv run --with segno python tools/etiqueta/gerar_etiqueta.py --id pf-xxxxxx
+```
 
 ## Primeiro uso
 
-1. Pareie o app com o código `pf-xxxxxx`.
+1. Aponte a câmera para o QR "Abrir o app" da etiqueta (ou digite o código `pf-xxxxxx-…` no app).
 2. Ajustes → **Calibrar a balança** (plataforma vazia → peso conhecido → vasilha vazia).
 3. Ajustes → rotor: se o rotor anda sozinho quando deveria estar parado, ajuste o "ponto parado" do servo.
 4. Encha o reservatório e toque em **Reabasteci → Enchi até o topo**.

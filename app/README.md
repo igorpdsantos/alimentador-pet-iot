@@ -36,7 +36,7 @@ Abra <http://localhost:5173>, digite o código `pf-sim001` e, em "Servidor MQTT 
 
 ## Usar com o alimentador de verdade
 
-1. Copie `.env.example` para `.env` e preencha com o broker do HiveMQ Cloud (`wss://…:8884/mqtt`). Use um usuário
+1. Copie `.env.example` para `.env` e preencha com o broker do EMQX Cloud Serverless (`wss://…:8084/mqtt`). Use um usuário
    **diferente** do usado no ESP32 — tudo que começa com `VITE_` fica embutido no app.
 2. `npm run build` gera o app estático em `dist/`. Publique em qualquer hospedagem HTTPS (ex.: GitHub Pages).
 3. No celular, abra o endereço e use **Adicionar à tela inicial**. Ele passa a abrir como um app.

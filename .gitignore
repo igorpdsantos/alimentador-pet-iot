@@ -28,3 +28,6 @@ cad/pacote_impressao_v3.zip
 .DS_Store
 .vscode/
 .idea/
+
+# Etiquetas geradas (têm a chave do alimentador)
+tools/etiqueta/saida/

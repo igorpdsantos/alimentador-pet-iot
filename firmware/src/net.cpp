@@ -21,6 +21,15 @@
 #endif
 static_assert(sizeof(PORTAL_PASS) - 1 >= 8 && sizeof(PORTAL_PASS) - 1 <= 63, "PORTAL_PASS precisa ter de 8 a 63 caracteres (WPA2)");
 
+#ifndef PAIR_SECRET
+#error "Defina PAIR_SECRET em include/secrets.h (parte secreta do código de pareamento, ver secrets.example.h)"
+#endif
+constexpr bool pairSecretOk(const char* s, int n = 0) {
+  return *s == 0 ? (n >= 8 && n <= 32)
+                 : (((*s >= 'a' && *s <= 'z') || (*s >= '0' && *s <= '9')) && pairSecretOk(s + 1, n + 1));
+}
+static_assert(pairSecretOk(PAIR_SECRET), "PAIR_SECRET precisa ter de 8 a 32 letras minúsculas ou números (o app lê assim)");
+
 namespace net {
 namespace {
 
@@ -162,7 +171,8 @@ void connectMqtt() {
   if (millis() < nextAttempt) return;
   Serial.printf("[net] conectando MQTT %s:%d\n", MQTT_HOST, MQTT_PORT);
   std::string will = topic("online");
-  if (mqtt.connect(g.deviceId, MQTT_USER, MQTT_PASS, will.c_str(), 1, true, "false")) {
+  // Usuário do broker = device_id, senha = PAIR_SECRET; o broker só libera petfeeder/{device_id}/# (D24)
+  if (mqtt.connect(g.deviceId, g.deviceId, PAIR_SECRET, will.c_str(), 1, true, "false")) {
     backoffMs = 1000;
     onConnected();
   } else {
@@ -220,10 +230,16 @@ void begin() {
 void task(void*) {
   char ap[32];
   snprintf(ap, sizeof(ap), "Alimentador-%s", g.deviceId + 3);
-  // O portal mostra o device_id para o usuário digitar no app.
-  static char info[80];
-  snprintf(info, sizeof(info), "<p>Código do alimentador: <b>%s</b></p>", g.deviceId);
-  wm.setCustomHeadElement(info);
+  // Portal com o visual do app (textos e estilo em include/wm_strings_pt.h). O título vira o cartão
+  // "Código do alimentador" da página inicial, que o usuário digita no app para parear.
+  wm.setCustomHeadElement(PF_PORTAL_HEADER);
+  static char pairCode[48];
+  snprintf(pairCode, sizeof(pairCode), "%s-%s", g.deviceId, PAIR_SECRET);
+  wm.setTitle(pairCode);
+  std::vector<const char*> menu = {"wifi"};
+  wm.setMenu(menu);
+  wm.setShowInfoUpdate(false);  // atualização só por OTA com senha
+  wm.setShowInfoErase(false);
   wm.setConfigPortalBlocking(false);  // agenda e dosagem continuam sem rede
   wm.setConfigPortalTimeout(PORTAL_TIMEOUT_S);
   wm.autoConnect(ap, PORTAL_PASS);  // rede de configuração com senha (WPA2), impressa na etiqueta

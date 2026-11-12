@@ -20,7 +20,8 @@ firmware/
   platformio.ini          envs esp32 (placa) e native (testes no PC)
   include/
     config.h              ← pinos, constantes, limites (espelha 02-hardware §2)
-    ca_cert.h             ← ISRG Root X1 (HiveMQ Cloud), válido até 2035
+    ca_cert.h             ← DigiCert Global Root G2 + Global Root CA (EMQX Cloud), até 2038/2031
+    wm_strings_pt.h       ← portal WiFiManager em pt-BR com o tema do app (build flag WM_STRINGS_FILE)
     secrets.example.h     ← modelo; secrets.h fica no .gitignore
   lib/core/src/           ← LÓGICA PURA, sem Arduino: compila no ESP32 e no PC
     dispenser.{h,cpp}     ← máquina de estados da dosagem (§4)
@@ -165,12 +166,14 @@ IDLE → PRECHECK → DESTRAVA → BASELINE → GIRA → ASSENTA → PESA ─┬
 `include/secrets.h` (fora do git):
 
 ```cpp
-#define MQTT_HOST "xxxxxxxx.s1.eu.hivemq.cloud"
+#define MQTT_HOST "xxxxxxxx.ala.us-east-1.emqxsl.com"
 #define MQTT_PORT 8883
-#define MQTT_USER "..."
-#define MQTT_PASS "..."
+#define PAIR_SECRET "..."   // 8 a 32 letras minúsculas/números; não compila fora disso (D24)
 #define OTA_PASS  "..."
 #define PORTAL_PASS "..."   // 8 a 63 caracteres; não compila fora disso. Vai na etiqueta do alimentador
 ```
 
-Certificado raiz do broker (ISRG Root X1 para HiveMQ Cloud) em `include/ca_cert.h`.
+O ESP32 entra no broker com usuário = `device_id` e senha = `PAIR_SECRET`. O código de pareamento
+`pf-xxxxxx-PAIR_SECRET` aparece no portal de configuração e na etiqueta (`tools/etiqueta/gerar_etiqueta.py`).
+
+Certificado raiz do broker (DigiCert Global Root G2 + Global Root CA, para o EMQX Cloud) em `include/ca_cert.h`.

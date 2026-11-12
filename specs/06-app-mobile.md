@@ -10,7 +10,7 @@ e funciona como um app, sem loja. Decisão D19 em [README.md](README.md) (substi
 | Base | Vite 6 + React 19 + **TypeScript estrito** |
 | PWA | `vite-plugin-pwa` (manifesto, service worker, ícones em `public/icons/`); funciona offline com o último estado salvo |
 | Navegação | 4 abas + rota no hash (`#/agenda`, `#/historico`, `#/ajustes`, `#/calibracao`); serve em qualquer hospedagem estática |
-| MQTT | `mqtt` (mqtt.js v5) por WebSocket seguro (`wss://…:8884/mqtt`) |
+| MQTT | `mqtt` (mqtt.js v5) por WebSocket seguro (`wss://…:8084/mqtt`) |
 | Estado | `zustand` |
 | Armazenamento local | IndexedDB via `idb` (histórico, um banco por alimentador); `localStorage` (pareamento e credenciais do broker) |
 | Gráficos | SVG próprio (`src/components/Charts.tsx`), sem biblioteca |
@@ -43,8 +43,12 @@ app/
 ### Pareamento (primeiro uso)
 1. Explica: ligar o alimentador, conectar o celular à rede "Alimentador-XXXXXX" (senha na etiqueta, D21), escolher o Wi-Fi da casa
    no portal (WiFiManager). O portal mostra o `device_id`.
-2. Usuário digita o `device_id` (ou lê o QR da etiqueta pela câmera, onde o navegador tem `BarcodeDetector` — QR contém `pf-xxxxxx`).
-3. Broker (URL, usuário, senha) vem preenchido do `.env`; dá para trocar em "Servidor MQTT (avançado)".
+2. O QR "2. Abrir o app" da etiqueta abre `…/app/#codigo=pf-xxxxxx-segredo` e o app **conecta sozinho**, sem
+   tocar em nada. Sem a etiqueta, o usuário digita o **código do alimentador** `pf-xxxxxx-segredo` (D24), que o
+   portal também mostra; onde o navegador tem `BarcodeDetector` dá para ler o QR pela câmera dentro do app.
+3. O endereço do broker vem de `VITE_MQTT_URL` (o workflow do Pages define; no desenvolvimento, `app/.env`);
+   usuário = `device_id`, senha = segredo. Não há campo de servidor na tela. Simulador `--local`: código
+   `pf-sim001-` + qualquer segredo de 8+ caracteres (o broker local não confere senha).
 4. App assina `petfeeder/{id}/online` e espera `true` (timeout 30 s) → sucesso.
 5. Botão **Ver demonstração** entra no modo demonstração (§6), sem pedir código nem broker.
 
@@ -88,7 +92,8 @@ Saudação com o nome do tutor ("Olá, Ana", ou "Olá!" sem nome) e o nome do pe
 - Comando sem `resp` em 8 s → "O alimentador não respondeu" e botão **Tentar de novo** com o **mesmo `req_id`**.
 - Offline (`online=false` ou sem conexão com o broker): botões de comando desabilitados; mostra o último status.
 - Nada de UI otimista em `feed`: o progresso só aparece com os eventos do dispositivo.
-- Credenciais do broker: `app/.env` (`VITE_MQTT_URL`, `VITE_MQTT_USER`, `VITE_MQTT_PASS`) ou digitadas no pareamento.
+- Broker: `VITE_MQTT_URL` (só o endereço; definido no workflow do Pages). Usuário e senha vêm do código de pareamento.
+  `VITE_MQTT_USER`/`VITE_MQTT_PASS` só em `app/.env` local, nunca no app publicado.
   `VITE_*` vai embutido no app publicado — aceitável para o trabalho; usar credencial **separada** da do ESP32,
   com permissão só em `petfeeder/#`.
 - Português do Brasil, gramas com 1 casa, hora 24 h, datas `dd/mm`, fuso de Brasília.
@@ -100,7 +105,7 @@ Saudação com o nome do tutor ("Olá, Ana", ou "Olá!" sem nome) e o nome do pe
 `tools/simulador/` (Node + mqtt.js) implementa o lado do ESP32 do contrato com balança, bateria e reservatório
 falsos, para desenvolver o app sem hardware: responde comandos, simula a dosagem (giros com ruído, falha `NO_FLOW`
 configurável), publica `status`, `config` e eventos, e gera 7 dias de histórico. Com `--local` sobe um broker
-próprio em `ws://localhost:9001/mqtt` (sem internet nem conta no HiveMQ).
+próprio em `ws://localhost:9001/mqtt` (sem internet nem conta no broker).
 
 ## 6. Modo demonstração
 
