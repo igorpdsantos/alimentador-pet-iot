@@ -1,5 +1,9 @@
 # Passo a passo de montagem — Alimentador v3
 
+> **Manual detalhado, com imagem 3D de cada passo:** [`docs/manual/`](manual/README.md) (imprimível) e a versão
+> interativa `site/manual.html` (no site: **Manual 3D**). Lá a montagem está dividida em **módulos independentes**
+> (Tubo, Cartucho, Pedestal, Eletrônica, Balança, Patas) que juntam na montagem final. Este arquivo é o resumo por fases.
+
 Siga **na ordem**. Cada fase tem: o que separar, os passos numerados e um **✅ Confira antes de seguir**.
 Não pule os "Confira": eles evitam queimar placa ou ter que desmontar tudo depois.
 
@@ -213,10 +217,11 @@ Peças: P01, P02, P03, servo 360°, braço duplo do servo, 2 parafusos do kit, 2
 
 ## Fase 6 — Cartucho e bica no tubo (30 min)
 
-1. Vire o tubo **de cabeça para baixo**. Empurre o cartucho **pelo fundo**, anel primeiro, saída virada para a
-   janela, até os 3 furos de trás coincidirem com os do piso.
+1. Com o tubo **em pé** (um colega segura, fundo ~30 cm acima da mesa), empurre o cartucho **por baixo, pelo fundo**,
+   com o chapéu em cima e a saída virada para a janela, até os 3 furos de trás coincidirem com os do piso.
+   **Não vire o tubo de cabeça para baixo:** o chapéu só está encaixado por 2 pinos e cairia tubo abaixo.
 2. Aparafuse **3 × M3 × 10** por fora (TRÁS, 30°, 150°).
-3. Desvire o tubo. Encaixe a **bica (P04)** por fora, pela janela, até encostar embaixo do piso.
+3. Encaixe a **bica (P04)** por fora, pela janela, até encostar embaixo do piso.
 4. Aparafuse **2 × M3 × 8** pela moldura (prendem bica + anel).
 5. Deixe o cabo do servo pendurado para o fundo do tubo.
 

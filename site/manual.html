@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Manual de Montagem 3D</title>
+<meta name="description" content="Passo a passo de montagem do Alimentador de Pet IoT v3, por módulos, com o modelo 3D em cada passo.">
+<meta name="theme-color" content="#edefeb">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders:opsz,wght@10..72,500..900&family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,500;0,700;1,400&family=Atkinson+Hyperlegible+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="manual/manual.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='3' fill='%23f2be0f'/%3E%3Crect x='12' y='4' width='8' height='15' fill='%23171b19'/%3E%3Cpath d='M7 21h18l-2.5 7h-13z' fill='%23171b19'/%3E%3C/svg%3E">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script type="module" src="manual/manual.js"></script>
+</head>
+<body>
+<header class="topo">
+  <button class="btn-ind" id="abrir-indice" type="button" aria-label="Abrir lista de passos">☰ Passos</button>
+  <a class="marca" href="./" aria-label="Voltar ao site do projeto">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="3" class="m-fundo"/><rect x="12" y="4" width="8" height="15" class="m-tinta"/><path d="M7 21h18l-2.5 7h-13z" class="m-tinta"/></svg>
+    <span>Manual de <b>montagem</b></span>
+  </a>
+  <div class="barra" id="barra" aria-hidden="true"><i></i></div>
+  <button class="tema" id="tema" type="button" aria-label="Alternar tema claro/escuro">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+  </button>
+</header>
+
+<div class="manual">
+  <nav class="indice" id="indice" aria-label="Módulos e passos"></nav>
+
+  <div class="palco" id="palco">
+    <canvas id="tela" aria-label="Modelo 3D do passo atual. Arraste para girar, use dois dedos ou a roda para aproximar."></canvas>
+    <svg class="linhas" id="linhas" aria-hidden="true"></svg>
+    <div class="rotulos" id="rotulos"></div>
+    <div class="carregando" id="carregando">Carregando o modelo 3D… <b></b></div>
+    <div class="ctrl">
+      <button id="tocar" type="button" aria-pressed="true">❚❚ Pausar</button>
+      <button id="montado" type="button">Ver montado</button>
+      <button id="recentrar" type="button">Recentrar</button>
+    </div>
+    <p class="legenda-3d"><i class="sw sw-novo"></i>entra agora <i class="sw sw-ctx"></i>já montado <i class="sw sw-fan"></i>transparente</p>
+  </div>
+
+  <article class="passo" id="passo" aria-live="polite"></article>
+
+  <nav class="navpassos">
+    <button id="ant" type="button">← Anterior</button>
+    <button id="prox" type="button" class="primario">Próximo →</button>
+  </nav>
+</div>
+</body>
+</html>

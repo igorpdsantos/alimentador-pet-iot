@@ -31,3 +31,6 @@ cad/pacote_impressao_v3.zip
 
 # Etiquetas geradas (têm a chave do alimentador)
 tools/etiqueta/saida/
+
+# Manual: GLB sem compressão (o site usa o .min.glb)
+site/manual/montagem.glb

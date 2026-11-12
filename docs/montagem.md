@@ -1,6 +1,7 @@
 # Montagem, uso e manutenção — Alimentador v3
 
-> **Para montar, siga o [passo a passo](passo_a_passo.md)** (fases numeradas com verificações). Este
+> **Para montar, siga o [manual 3D por módulos](manual/README.md)** (imagem de cada passo; versão interativa em
+> `site/manual.html`) ou o resumo do [passo a passo](passo_a_passo.md). Este
 > documento é a referência: como as peças se encaixam, uso diário, limpeza, troca de pilhas e mapa de ligações.
 
 Modelos e medidas de cada peça: `docs/componentes.md`. Parafusos: `docs/componentes.md` §3.
@@ -123,8 +124,9 @@ Ligações: tabela em `docs/componentes.md` §4. Regras:
    4. Anel + escudo (P02): encaixar os **3 pinos** no piso. O escudo fica sobre a saída (só entra nessa posição).
    5. **Chapéu (P10):** encaixar os **2 pinos** nos furos do topo do escudo (telhado alto para a frente, aresta
       atravessando o tubo). Fica solto; o peso da ração o segura. Vai junto com o cartucho para dentro do tubo.
-5. **Cartucho no tubo:** com o tubo de cabeça para baixo, empurrar o cartucho pelo **fundo** (sem o
-   pedestal) até os 3 furos de trás alinharem (servo para o lado do fundo, saída virada para a janela).
+5. **Cartucho no tubo:** com o tubo **em pé** (seguro por um colega, fundo livre), empurrar o cartucho por baixo, pelo
+   **fundo** (sem o pedestal), com o chapéu em cima, até os 3 furos de trás alinharem (servo para o lado do fundo,
+   saída virada para a janela). De cabeça para baixo o chapéu, solto nos 2 pinos, cairia tubo abaixo.
    Apertar **3 × M3 × 10**. Deixar o cabo do servo pendurado para o fundo.
 6. **Bica:** encaixar por fora, pela janela, até encostar sob o piso; **2 × M3 × 8** pela moldura (prendem
    bica + anel).

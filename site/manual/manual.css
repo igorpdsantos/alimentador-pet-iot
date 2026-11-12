@@ -1,0 +1,152 @@
+/* Manual de montagem 3D — mesma identidade do site (estilo.css): bancada clara, grafite, amarelo de sinalização. */
+:root {
+  --fundo: #edefeb; --superficie: #f7f8f5; --superficie-2: #fff; --linha: #cdd2cb; --linha-forte: #a9b1a9;
+  --tinta: #171b19; --tinta-2: #3d4541; --mudo: #67706b; --sinal: #f2be0f; --sinal-tinta: #171300;
+  --sinal-fundo: rgba(242, 190, 15, .18); --ok: #1e9a55; --perigo: #cf3a2b; --palco: #e6e9e3;
+  --c-mec: #5b6ee1; --c-ele: #1e9a55; --c-sol: #d9682b; --c-par: #7d858f; --c-col: #b0702c; --c-tes: #cf3a2b; --c-med: #8a5cc7;
+  --f-disp: "Big Shoulders", "Arial Narrow", sans-serif;
+  --f-txt: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", Verdana, sans-serif;
+  --f-mono: "Atkinson Hyperlegible Mono", ui-monospace, Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --fundo: #121513; --superficie: #1c211f; --superficie-2: #222826; --linha: #2f3633; --linha-forte: #4a544f;
+    --tinta: #e8ebe5; --tinta-2: #b8bfb8; --mudo: #858e88; --sinal: #ffcd2a; --sinal-fundo: rgba(255, 205, 42, .14);
+    --ok: #3ccb7a; --perigo: #ff6a55; --palco: #1a1f1d; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --fundo: #121513; --superficie: #1c211f; --superficie-2: #222826; --linha: #2f3633; --linha-forte: #4a544f;
+  --tinta: #e8ebe5; --tinta-2: #b8bfb8; --mudo: #858e88; --sinal: #ffcd2a; --sinal-fundo: rgba(255, 205, 42, .14);
+  --ok: #3ccb7a; --perigo: #ff6a55; --palco: #1a1f1d; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; background: var(--fundo); color: var(--tinta); font: 400 1rem/1.55 var(--f-txt); -webkit-font-smoothing: antialiased; overflow: hidden; }
+button { font: inherit; }
+code { font-family: var(--f-mono); font-size: .9em; background: var(--sinal-fundo); padding: 0 .3em; border-radius: 2px; }
+
+/* topo */
+.topo { height: 56px; display: flex; align-items: center; gap: 14px; padding: 0 16px; border-bottom: 1px solid var(--linha); background: var(--superficie); position: relative; }
+.marca { display: flex; align-items: center; gap: .55rem; text-decoration: none; color: var(--tinta); font: 800 1.25rem/1 var(--f-disp); text-transform: uppercase; letter-spacing: .02em; white-space: nowrap; }
+.marca svg { width: 26px; height: 26px; }
+.m-fundo { fill: var(--sinal); } .m-tinta { fill: #171b19; }
+.marca b { color: var(--mudo); font-weight: 800; }
+.barra { flex: 1; height: 6px; background: var(--linha); border-radius: 3px; overflow: hidden; }
+.barra i { display: block; height: 100%; width: 0; background: var(--sinal); transition: width .3s; }
+.tema, .btn-ind { flex: none; height: 36px; border-radius: 3px; border: 1px solid var(--linha-forte); background: var(--superficie-2); color: var(--tinta); cursor: pointer; box-shadow: 0 -2px 0 var(--linha) inset; }
+.tema { width: 36px; display: grid; place-items: center; }
+.tema svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; }
+.btn-ind { display: none; padding: 0 12px; font-weight: 700; }
+
+/* grade: índice | 3D | passo */
+.manual { height: calc(100% - 56px); display: grid; grid-template-columns: 290px minmax(0, 1fr) 420px; grid-template-rows: minmax(0, 1fr) auto;
+  grid-template-areas: "ind palco passo" "ind palco nav"; }
+.indice { grid-area: ind; overflow-y: auto; border-right: 1px solid var(--linha); background: var(--superficie); padding: 8px 0 40px; }
+.palco { grid-area: palco; position: relative; overflow: hidden; background: var(--palco); }
+.passo { grid-area: passo; overflow-y: auto; padding: 20px 22px 28px; border-left: 1px solid var(--linha); background: var(--superficie); }
+.navpassos { grid-area: nav; display: flex; gap: 8px; padding: 10px 16px; border-left: 1px solid var(--linha); border-top: 1px solid var(--linha); background: var(--superficie); }
+.navpassos button { flex: 1; min-height: 44px; border-radius: 3px; border: 1px solid var(--linha-forte); background: var(--superficie-2); color: var(--tinta); cursor: pointer; font-weight: 700; box-shadow: 0 -2px 0 var(--linha) inset; }
+.navpassos .primario { background: var(--sinal); color: var(--sinal-tinta); border-color: #c99c00; flex: 1.6; }
+.navpassos button:disabled { opacity: .4; cursor: default; }
+
+/* índice */
+.mod h3 { margin: 14px 14px 4px; display: flex; align-items: baseline; gap: 8px; font: 800 1.05rem/1.2 var(--f-disp); text-transform: uppercase; letter-spacing: .03em; }
+.mod-cod { display: inline-grid; place-items: center; min-width: 26px; height: 22px; padding: 0 5px; background: var(--tinta); color: var(--fundo); font: 700 .8rem/1 var(--f-mono); border-radius: 2px; }
+.mod-nome { flex: 1; }
+.mod-ok { font: 500 .75rem/1 var(--f-mono); color: var(--mudo); }
+.mod ol { list-style: none; margin: 0; padding: 0; }
+.mod a { display: grid; grid-template-columns: 38px 1fr auto; gap: 6px; align-items: center; padding: 6px 14px; color: var(--tinta-2); text-decoration: none; font-size: .9rem; line-height: 1.3; border-left: 3px solid transparent; }
+.mod a:hover { background: var(--fundo); }
+.mod a.ativo { background: var(--sinal-fundo); border-left-color: var(--sinal); color: var(--tinta); font-weight: 700; }
+.mod a .n { font: 500 .78rem/1 var(--f-mono); color: var(--mudo); }
+.mod a.feito .t { text-decoration: line-through; text-decoration-color: var(--ok); text-decoration-thickness: 2px; }
+.mod a.feito .n::before { content: "✓ "; color: var(--ok); }
+.tipos { display: flex; gap: 3px; }
+
+/* tipos de trabalho */
+.tp { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--mudo); flex: none; }
+.tp-mecanica { background: var(--c-mec); } .tp-eletronica { background: var(--c-ele); } .tp-solda { background: var(--c-sol); }
+.tp-parafusos { background: var(--c-par); } .tp-cola { background: var(--c-col); } .tp-teste { background: var(--c-tes); } .tp-medir { background: var(--c-med); }
+.tipos-linha { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; }
+.tag { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px; border: 1px solid var(--linha-forte); border-radius: 2px; font: 500 .8rem/1.3 var(--f-mono); background: var(--superficie-2); }
+.tag.tempo, .tag.quem { color: var(--mudo); }
+
+/* painel do passo */
+.passo-mod { margin: 0 0 6px; font: 500 .8rem/1.4 var(--f-mono); color: var(--mudo); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.passo-pos { margin-left: auto; }
+.passo h2 { margin: 0 0 10px; font: 800 1.8rem/1.05 var(--f-disp); text-transform: uppercase; letter-spacing: .01em; }
+.passo h2 .n { color: var(--mudo); font-weight: 600; }
+.passo h4 { margin: 18px 0 6px; font: 700 .78rem/1 var(--f-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--mudo); }
+.resumo { margin: 0 0 6px; color: var(--tinta-2); }
+.passo ul, .passo ol { margin: 0; padding-left: 1.2em; }
+.passo li { margin: 4px 0; }
+.faca { padding-left: 0 !important; list-style: none; counter-reset: f; }
+.faca li { counter-increment: f; position: relative; padding: 6px 0 6px 34px; border-bottom: 1px dashed var(--linha); }
+.faca li::before { content: counter(f); position: absolute; left: 0; top: 6px; width: 24px; height: 24px; display: grid; place-items: center; background: var(--tinta); color: var(--fundo); border-radius: 2px; font: 700 .8rem/1 var(--f-mono); }
+.pecas { width: 100%; border-collapse: collapse; font-size: .92rem; }
+.pecas td { padding: 5px 6px; border-bottom: 1px solid var(--linha); vertical-align: top; }
+.pecas .q { width: 3.2em; font: 700 .9rem/1.4 var(--f-mono); white-space: nowrap; }
+.pecas small { display: block; color: var(--mudo); font-size: .82rem; }
+.ferr { font-size: .92rem; color: var(--tinta-2); }
+.atencao, .confira { margin: 16px 0 0; padding: 10px 12px 10px 14px; border-radius: 2px; font-size: .93rem; }
+.atencao { background: rgba(207, 58, 43, .08); border-left: 4px solid var(--perigo); }
+.confira { background: rgba(30, 154, 85, .09); border-left: 4px solid var(--ok); }
+.atencao b, .confira b { display: block; margin-bottom: 4px; }
+.feito-check { display: flex; align-items: center; gap: 8px; margin-top: 18px; font-weight: 700; cursor: pointer; }
+.feito-check input { width: 20px; height: 20px; accent-color: var(--ok); }
+.passo table.tab { width: 100%; border-collapse: collapse; font-size: .88rem; margin: 6px 0; }
+.passo table.tab th, .passo table.tab td { padding: 4px 6px; border-bottom: 1px solid var(--linha); text-align: left; vertical-align: top; }
+.passo table.tab th { font: 700 .72rem/1.2 var(--f-mono); text-transform: uppercase; color: var(--mudo); }
+.mods-grade { display: grid; gap: 8px; margin: 10px 0; }
+.mods-grade div { border: 1px solid var(--linha); border-radius: 2px; padding: 8px 10px; background: var(--superficie-2); font-size: .9rem; }
+.mods-grade b { font-family: var(--f-mono); }
+.fio { display: inline-block; width: 14px; height: 6px; border-radius: 3px; vertical-align: middle; margin-right: 4px; border: 1px solid rgba(0,0,0,.25); }
+
+/* 3D */
+#tela { width: 100%; height: 100%; display: block; touch-action: none; }
+.linhas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.linhas line { stroke: var(--tinta); stroke-width: 1.2; }
+.linhas circle { fill: var(--sinal); stroke: var(--tinta); stroke-width: 1.2; }
+.rotulos { position: absolute; inset: 0; pointer-events: none; }
+.rot { position: absolute; left: 0; top: 0; padding: 3px 8px; background: var(--superficie-2); color: var(--tinta); border: 1px solid var(--tinta); border-radius: 2px;
+  font: 600 .8rem/1.25 var(--f-mono); white-space: nowrap; box-shadow: 0 2px 0 rgba(0,0,0,.12); }
+.rot-sinal { background: var(--sinal); color: var(--sinal-tinta); }
+.rot-aviso { background: var(--perigo); color: #fff; border-color: var(--perigo); }
+.rot-medida { background: var(--tinta); color: var(--fundo); }
+.carregando { position: absolute; inset: 0; display: grid; place-items: center; color: var(--mudo); font-family: var(--f-mono); }
+.ctrl { position: absolute; left: 12px; top: 12px; display: flex; gap: 6px; flex-wrap: wrap; }
+.ctrl button { min-height: 36px; padding: 0 12px; border-radius: 3px; border: 1px solid var(--linha-forte); background: var(--superficie-2); color: var(--tinta); cursor: pointer; font-size: .85rem; font-weight: 700; box-shadow: 0 -2px 0 var(--linha) inset; }
+.legenda-3d { position: absolute; left: 12px; bottom: 8px; margin: 0; font: 500 .75rem/1 var(--f-mono); color: var(--mudo); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.sw { display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin-left: 6px; }
+.sw-novo { background: #f6d670; border: 1px solid #c99c00; } .sw-ctx { background: #b9bdb7; } .sw-fan { border: 1px dashed var(--mudo); }
+
+/* modo foto (imagens do manual impresso): só o 3D, fundo claro */
+.foto body { overflow: hidden; }
+.foto .topo, .foto .indice, .foto .passo, .foto .navpassos, .foto .ctrl, .foto .legenda-3d { display: none; }
+.foto .manual { display: block; height: 100%; }
+.foto .palco { width: 100%; height: 100%; }
+.foto .rot { font-size: 15px; padding: 4px 10px; }
+
+/* tablet e celular */
+@media (max-width: 1100px) {
+  .manual { grid-template-columns: minmax(0, 1fr) 380px; grid-template-areas: "palco passo" "palco nav"; }
+  .indice { position: fixed; z-index: 20; top: 56px; bottom: 0; left: 0; width: min(330px, 88vw); transform: translateX(-100%); transition: transform .25s; box-shadow: 0 0 40px rgba(0,0,0,.25); }
+  .indice-aberto .indice { transform: none; }
+  .btn-ind { display: block; }
+}
+@media (max-width: 760px) {
+  body { overflow: auto; }
+  .manual { height: auto; display: block; }
+  .palco { position: sticky; top: 0; height: 46vh; z-index: 5; border-bottom: 1px solid var(--linha); }
+  .passo { overflow: visible; border-left: 0; padding: 16px 16px 90px; }
+  .navpassos { position: fixed; z-index: 15; left: 0; right: 0; bottom: 0; border-left: 0; padding-bottom: max(10px, env(safe-area-inset-bottom)); }
+  .marca span { font-size: 1.05rem; }
+  .barra { display: none; }
+  .topo { gap: 10px; justify-content: space-between; }
+  .legenda-3d { display: none; }
+  .ctrl button { min-height: 32px; padding: 0 9px; font-size: .78rem; }
+  .passo h2 { font-size: 1.5rem; }
+  .rot { font-size: .7rem; padding: 2px 6px; }
+}
