@@ -23,7 +23,10 @@
 // ---- Balança ----
 #define SCALE_SAMPLES 10            // 10 leituras a 10 Hz
 #define SCALE_STABLE_STDDEV_G 0.5
+#define SCALE_STABLE_MIN_COUNTS 200 // piso: ruído próprio do HX711 (medido: desvio ~65 contagens na célula vazia)
+#define SCALE_DEFAULT_COUNTS_PER_G 400  // célula de 5 kg antes da calibração
 #define SCALE_ATTEMPTS 3
+#define SCALE_LIVE_SAMPLES 3        // read_scale (leitura ao vivo do app): ~0,3 s, uma tentativa
 #define SCALE_OVERLOAD_G 4500
 #define SCALE_TIMEOUT_MS 300        // sem DOUT pronto nesse tempo = HX711 sem resposta
 #define BOWL_MIN_G 20               // abaixo disso, "vasilha ausente" se a vasilha não foi tarada

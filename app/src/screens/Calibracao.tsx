@@ -19,7 +19,7 @@ export function Calibracao({ back }: { back: () => void }) {
   const paused = useRef(false);
   const liveRead = useRef<Promise<unknown> | null>(null);
 
-  // Leitura ao vivo a cada 1 s, sem empilhar pedidos se o anterior ainda não voltou.
+  // Leitura ao vivo o mais rápido possível: novo pedido logo que o anterior volta (o firmware lê em ~0,3 s).
   useEffect(() => {
     if (!canCommand) return;
     let stop = false;
@@ -38,7 +38,7 @@ export function Calibracao({ back }: { back: () => void }) {
         inFlight = false;
         liveRead.current = null;
       }
-    }, 1000);
+    }, 100);
     return () => {
       stop = true;
       clearInterval(t);

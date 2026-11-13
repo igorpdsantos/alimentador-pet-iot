@@ -205,7 +205,7 @@ void calibration(const Command& c) {
     Lock l;
     cal = g.cal;
   }
-  scale::Raw raw = scale::readRaw(cal);
+  scale::Raw raw = c.cmd == Cmd::ReadScale ? scale::readLive(cal) : scale::readRaw(cal);
   if (!raw.ok) return respondError(c, "SCALE_ERROR", "A balança não respondeu");
   switch (c.cmd) {
     case Cmd::TarePlatform:

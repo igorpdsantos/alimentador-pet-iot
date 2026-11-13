@@ -39,3 +39,9 @@ double trimmedMean(const double* v, size_t n) {
 
 double round1(double x) { return round(x * 10.0) / 10.0; }
 double round2(double x) { return round(x * 100.0) / 100.0; }
+
+double stableLimitCounts(double scaleFactor, double stableG, double minCounts, double defaultCountsPerG) {
+  double perG = fabs(scaleFactor) > 1e-6 ? fabs(scaleFactor) : defaultCountsPerG;
+  double lim = stableG * perG;
+  return lim > minCounts ? lim : minCounts;
+}

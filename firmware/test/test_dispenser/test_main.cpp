@@ -1,4 +1,5 @@
 // Máquina de estados da dosagem com rotor e balança simulados.
+#include "stats.h"
 #include <unity.h>
 #include <math.h>
 #include <initializer_list>
@@ -187,6 +188,12 @@ void test_pulse_clamp() {
   TEST_ASSERT_EQUAL(600, pulseMs(10, 0.01));
 }
 
+void test_stable_limit_has_noise_floor() {
+  TEST_ASSERT_EQUAL_FLOAT(200, (float)stableLimitCounts(8.1, 0.5, 200, 400));    // fator baixo: vale o piso do ruído
+  TEST_ASSERT_EQUAL_FLOAT(400, (float)stableLimitCounts(-800, 0.5, 200, 400));   // fator alto (e negativo): 0,5 g
+  TEST_ASSERT_EQUAL_FLOAT(200, (float)stableLimitCounts(0, 0.5, 200, 400));      // sem calibração: 400 contagens/g
+}
+
 int main() {
   UNITY_BEGIN();
   RUN_TEST(test_doses_within_tolerance);
@@ -202,5 +209,6 @@ int main() {
   RUN_TEST(test_pet_eating_sets_interference);
   RUN_TEST(test_timeout);
   RUN_TEST(test_pulse_clamp);
+  RUN_TEST(test_stable_limit_has_noise_floor);
   return UNITY_END();
 }

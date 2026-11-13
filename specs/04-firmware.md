@@ -106,8 +106,12 @@ IDLE → PRECHECK → DESTRAVA → BASELINE → GIRA → ASSENTA → PESA ─┬
 
 ### 4.4 Leitura estável
 
-- 10 leituras a 10 Hz; estável se desvio-padrão < 0,5 g. Até 3 tentativas; senão, usa a mediana e marca
+- 10 leituras a 10 Hz; estável se desvio-padrão < 0,5 g, com piso de 200 contagens (ruído próprio do HX711,
+  medido ~65 contagens na célula vazia — sem o piso, um fator de calibração baixo deixaria tudo "instável").
+  Até 3 tentativas; senão, usa a mediana e marca
   `unstable = true` no registro (pet mexendo na vasilha).
+- `read_scale` (leitura ao vivo da calibração) usa 3 leituras e 1 tentativa (~0,3 s); tara e calibração
+  continuam com as 10 leituras.
 - Se durante a dosagem o peso **cair** > 5 g entre medições → pet comendo: marca `interference = true`
   e continua (o servido é calculado pela soma dos ganhos positivos).
 

@@ -7,5 +7,8 @@ double stddev(const double* v, size_t n);
 double median(const double* v, size_t n);
 // Média descartando o menor e o maior valor (n ≥ 3); com n < 3, média simples.
 double trimmedMean(const double* v, size_t n);
+// Desvio-padrão máximo (em contagens) para uma leitura da balança ser "estável": stableG convertido pelo fator
+// de calibração, mas nunca abaixo do ruído próprio do HX711 (minCounts). Sem calibração, usa defaultCountsPerG.
+double stableLimitCounts(double scaleFactor, double stableG, double minCounts, double defaultCountsPerG);
 double round1(double x);
 double round2(double x);

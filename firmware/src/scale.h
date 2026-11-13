@@ -13,7 +13,8 @@ struct Raw {
 
 void begin();
 bool ready();
-Raw readRaw(const Calibration& cal);  // 10 leituras, até 3 tentativas
+Raw readRaw(const Calibration& cal);   // 10 leituras, até 3 tentativas (dosagem e calibração)
+Raw readLive(const Calibration& cal);  // 3 leituras, 1 tentativa (~0,3 s) para a leitura ao vivo
 double toPlatformGrams(double counts, const Calibration& cal);
 // Leitura para a dosagem: ração na vasilha (descontada a tara da vasilha).
 ScaleReading readFood(const Calibration& cal);

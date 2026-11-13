@@ -15,26 +15,31 @@ void begin() {
 
 bool ready() { return hx.wait_ready_timeout(SCALE_TIMEOUT_MS); }
 
-Raw readRaw(const Calibration& cal) {
+namespace {
+Raw read(const Calibration& cal, int samples, int attempts) {
   double v[SCALE_SAMPLES];
   Raw r{false, false, 0};
-  for (int attempt = 0; attempt < SCALE_ATTEMPTS; attempt++) {
+  double limit = stableLimitCounts(cal.scaleFactor, SCALE_STABLE_STDDEV_G, SCALE_STABLE_MIN_COUNTS,
+                                   SCALE_DEFAULT_COUNTS_PER_G);
+  for (int attempt = 0; attempt < attempts; attempt++) {
     int n = 0;
-    for (; n < SCALE_SAMPLES; n++) {
+    for (; n < samples; n++) {
       if (!hx.wait_ready_timeout(SCALE_TIMEOUT_MS)) break;  // HX711 a 10 Hz: ~100 ms por leitura
       v[n] = hx.read();
     }
-    if (n < SCALE_SAMPLES) return r;  // sem resposta
+    if (n < samples) return r;  // sem resposta
     r.ok = true;
-    // O critério de estabilidade é em gramas; sem calibração assume ~400 contagens/g (célula de 5 kg).
-    double countsPerGram = isCalibrated(cal) ? fabs(cal.scaleFactor) : 400;
     r.counts = mean(v, n);
-    r.stable = stddev(v, n) < SCALE_STABLE_STDDEV_G * countsPerGram;
+    r.stable = stddev(v, n) < limit;
     if (r.stable) return r;
     r.counts = median(v, n);
   }
   return r;
 }
+}  // namespace
+
+Raw readRaw(const Calibration& cal) { return read(cal, SCALE_SAMPLES, SCALE_ATTEMPTS); }
+Raw readLive(const Calibration& cal) { return read(cal, SCALE_LIVE_SAMPLES, 1); }
 
 double toPlatformGrams(double counts, const Calibration& cal) {
   if (!isCalibrated(cal)) return 0;
