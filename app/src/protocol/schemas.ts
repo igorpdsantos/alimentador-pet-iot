@@ -101,7 +101,8 @@ export const event = z.discriminatedUnion('type', [
 ]);
 
 export const resp = z.union([
-  z.object({ req_id: z.string(), ok: z.literal(true), data: z.record(z.unknown()).default({}) }),
+  // O firmware 0.1.0 manda `data: null` quando a resposta não tem campos; tratamos como `{}`.
+  z.object({ req_id: z.string(), ok: z.literal(true), data: z.record(z.unknown()).nullish().transform((d) => d ?? {}) }),
   z.object({ req_id: z.string(), ok: z.literal(false), error: z.string(), msg: z.string().default('') }),
 ]);
 

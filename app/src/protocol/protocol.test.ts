@@ -16,6 +16,11 @@ describe('schemas contra os fixtures do contrato', () => {
     for (const f of events) expect(() => S.event.parse(fixture(f)), f).not.toThrow();
   });
 
+  it('resposta ok com data null vira objeto vazio (firmware 0.1.0)', () => {
+    const r = S.resp.parse({ req_id: 'a', ok: true, data: null });
+    expect(r.ok && r.data).toEqual({});
+  });
+
   it('todas as respostas', () => {
     for (const f of fixtureNames().filter((n) => n.startsWith('resp_'))) {
       expect(() => S.resp.parse(fixture(f)), f).not.toThrow();

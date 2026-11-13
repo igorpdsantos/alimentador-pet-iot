@@ -230,7 +230,8 @@ std::string buildOk(const char* reqId, JsonDocument& data) {
   JsonDocument d;
   d["req_id"] = reqId;
   d["ok"] = true;
-  d["data"] = data.as<JsonVariantConst>();
+  if (data.isNull()) d["data"].to<JsonObject>();  // contrato: data é sempre objeto, nunca null
+  else d["data"] = data.as<JsonVariantConst>();
   return serialize(d);
 }
 

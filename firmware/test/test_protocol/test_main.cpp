@@ -178,6 +178,11 @@ void test_responses_match_fixtures() {
   assertSameJson(fixture("resp_history_feeds.json"), buildOk("h1", h));
 }
 
+void test_ok_without_fields_sends_empty_object() {
+  JsonDocument data;  // como o tare_platform com leitura estável: nenhum campo
+  TEST_ASSERT_EQUAL_STRING("{\"req_id\":\"t1\",\"ok\":true,\"data\":{}}", buildOk("t1", data).c_str());
+}
+
 int main() {
   UNITY_BEGIN();
   RUN_TEST(test_all_valid_commands_parse);
@@ -187,5 +192,6 @@ int main() {
   RUN_TEST(test_config_matches_fixture);
   RUN_TEST(test_events_match_fixtures);
   RUN_TEST(test_responses_match_fixtures);
+  RUN_TEST(test_ok_without_fields_sends_empty_object);
   return UNITY_END();
 }
