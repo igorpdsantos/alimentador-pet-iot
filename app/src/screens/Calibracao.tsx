@@ -1,5 +1,5 @@
 // Assistente de calibração da balança em 3 passos + leitura ao vivo (specs/06-app-mobile.md §3).
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Banner, Button, ScreenHead, Stepper } from '../components/ui';
 import { Icon } from '../components/Icon';
 import { useCommand } from '../components/useCommand';
@@ -14,6 +14,10 @@ export function Calibracao({ back }: { back: () => void }) {
   const command = useDevice((s) => s.command);
   const canCommand = useCanCommand();
   const toast = useDevice((s) => s.toast);
+  // O firmware atende um comando de balança por vez e responde BUSY ao que chegar durante uma leitura (~1 s).
+  // Por isso o passo pausa a leitura ao vivo e espera a que estiver em andamento antes de enviar.
+  const paused = useRef(false);
+  const liveRead = useRef<Promise<unknown> | null>(null);
 
   // Leitura ao vivo a cada 1 s, sem empilhar pedidos se o anterior ainda não voltou.
   useEffect(() => {
@@ -21,15 +25,18 @@ export function Calibracao({ back }: { back: () => void }) {
     let stop = false;
     let inFlight = false;
     const t = setInterval(async () => {
-      if (inFlight || busy) return;
+      if (inFlight || busy || paused.current) return;
       inFlight = true;
       try {
-        const r = await command('read_scale', {});
+        const p = command('read_scale', {});
+        liveRead.current = p;
+        const r = await p;
         if (!stop) setLive({ grams: r.grams, stable: r.stable });
       } catch {
         // ignora: a próxima leitura tenta de novo
       } finally {
         inFlight = false;
+        liveRead.current = null;
       }
     }, 1000);
     return () => {
@@ -60,7 +67,14 @@ export function Calibracao({ back }: { back: () => void }) {
   ];
 
   async function next() {
-    const r = await steps[step].run();
+    paused.current = true;
+    let r;
+    try {
+      await liveRead.current?.catch(() => undefined);
+      r = await steps[step].run();
+    } finally {
+      paused.current = false;
+    }
     if (!r) return;
     if (r && 'unstable' in r && r.unstable) toast('Leitura oscilando: confira se nada encosta na plataforma', 'warn');
     setStep(step + 1);
