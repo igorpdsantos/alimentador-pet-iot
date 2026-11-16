@@ -148,7 +148,7 @@ Plataforma + maior vasilha a ≥ 3 mm de tudo (pedestal 6 mm, braço 3 mm, tubo 
 ## 7. Tubo — furação
 
 Gerada em `cad/furos_tubo_v3.txt` (azimute: 0° = direita, 90° = trás, 270° = frente; altura desde
-o fundo do tubo). Inclui a **janela da bica** (56 × ~59 mm, na frente) e 9 furos Ø3 para parafusos.
+o fundo do tubo). Inclui a **janela da bica** (56 × ~59 mm, na frente) e 7 furos Ø 3,5 para parafusos (3 do cartucho, 2 da moldura, 2 do pedestal).
 Cortar a janela com micro-retífica ou furadeira + serra tico-tico; a moldura esconde rebarbas em cima/embaixo.
 
 ## 8. Componentes — medidas usadas no modelo (catálogo)

@@ -181,7 +181,7 @@ export const PASSOS = [
   /* ============================================================ A — tubo */
   {
     id: "a-1", modulo: "ma", num: "A.1", titulo: "Cortar o tubo e marcar as 4 linhas", tipo: ["medir", "mecanica"], tempo: "20 min", quem: "Dupla 1",
-    resumo: "Todas as alturas deste módulo são medidas **a partir do fundo** do tubo (a ponta que vai no pedestal). Perímetro do tubo = **319 mm**.",
+    resumo: "Só **duas peças** são parafusadas no tubo: o **piso do dosador** (P01), por **3 furos atrás**, e a **bica** (P04), por **2 furos na frente**, logo acima da janela. Esses 2 parafusos da bica atravessam a moldura e o tubo e rosqueiam no **anel** (P02), travando os dois. O servo vem preso no piso e o **chapéu não leva parafuso**: fica apoiado no escudo. Todas as alturas são medidas **a partir do fundo** do tubo (a ponta que vai no pedestal) e todas as distâncias em volta do tubo, **pela fita** (perímetro = **319 mm**).",
     mostra: TUBO, contexto: false, chao: false,
     cam: { dir: [.55, -1, .25], alvo: [0, 0, ZT + 160], zoom: .55 },
     rotulos: [
@@ -200,7 +200,7 @@ export const PASSOS = [
       "Medindo pela fita (em volta do tubo) a partir da FRENTE: **80 mm** para cada lado = **DIREITA** e **ESQUERDA**; **160 mm** = **TRÁS**.",
       "Ainda a partir da FRENTE, marque **106 mm** para cada lado (passando por trás): são as linhas de **30°** e **150°** dos furos do cartucho.",
     ],
-    confira: ["De TRÁS até a linha de 30° e até a de 150° dá ~53 mm (as duas iguais).", "As linhas estão paralelas ao tubo (confira com uma régua encostada)."],
+    confira: ["De TRÁS até a linha de 30° e até a de 150° dá ~53 mm (as duas iguais); da DIREITA até a de 30° dá ~27 mm.", "As linhas estão paralelas ao tubo (confira com uma régua encostada)."],
   },
   {
     id: "a-2", modulo: "ma", num: "A.2", titulo: "Furar os 7 furos de Ø 3,5 mm", tipo: ["medir", "mecanica"], tempo: "20 min", quem: "Dupla 1",
@@ -213,22 +213,25 @@ export const PASSOS = [
       { t: "moldura: ±14,6 mm da FRENTE, 202,5 mm", p: [15, -48.5, ZT + 202.5], tipo: "sinal", o: [60, -40] },
       { t: "janela da bica (passo A.3)", p: [0, -50.8, ZT + 170], o: [-70, 20] },
     ],
-    ...(() => { const t = tabela(["Furo", "Linha", "Altura (do fundo)", "Qtd"], [
-      ["Pedestal", "DIREITA e ESQUERDA", "**7,5 mm**", "2"],
-      ["Cartucho", "TRÁS, 30° e 150°", "**190,5 mm**", "3"],
-      ["Moldura da bica", "**14,6 mm** à direita e à esquerda da FRENTE", "**202,5 mm**", "2"],
+    ...(() => { const t = tabela(["Furo", "Linha", "Altura (do fundo)", "Qtd", "Parafuso (depois)", "Prende"], [
+      ["Pedestal", "DIREITA e ESQUERDA", "**7,5 mm**", "2", "**M3 × 20**", "pedestal: a ponta entra no furo como pino (G)"],
+      ["Cartucho", "TRÁS, 30° e 150°", "**190,5 mm**", "3", "**M3 × 10**", "piso P01 (B.7)"],
+      ["Moldura da bica", "**14,6 mm** pela fita, à direita e à esquerda da FRENTE", "**202,5 mm**", "2", "**M3 × 8**", "moldura → tubo → anel P02 (B.8)"],
     ]); return { html: t.html, md: t.md }; })(),
     ferramentas: ["furadeira", "broca 3,5 mm", "prego e martelo", "trena"],
     passos: [
       "Marque as 7 alturas nas linhas certas (tabela) e confira cada uma duas vezes.",
       "Fure com broca de **3,5 mm**. Tire as rebarbas de dentro do tubo com a lixa enrolada num dedo.",
     ],
-    atencao: ["O furo do pedestal é **muito perto da borda** (7,5 mm): fure devagar para o PVC não rachar."],
-    confira: ["7 furos, nas alturas da tabela (meça de novo depois de furar)."],
+    atencao: [
+      "O furo do pedestal é **muito perto da borda** (7,5 mm): fure devagar para o PVC não rachar.",
+      "Os furos da moldura ficam **acima** da janela (202,5 mm; a janela acaba em 199,5 mm). Não confunda com os 3 de trás, que ficam mais baixos (190,5 mm).",
+    ],
+    confira: ["7 furos, nas alturas da tabela (meça de novo depois de furar).", "Atrás: 3 furos na mesma altura. Na frente: 2 furos lado a lado, ~29 mm um do outro, centrados na linha da FRENTE."],
   },
   {
     id: "a-3", modulo: "ma", num: "A.3", titulo: "Abrir a janela da bica", tipo: ["medir", "mecanica"], tempo: "25 min", quem: "Dupla 1",
-    resumo: "Retângulo centrado na linha da FRENTE: **55,6 mm de largura** (27,8 mm para cada lado da linha) × **de 140,7 a 199,5 mm** de altura.",
+    resumo: "Retângulo centrado na linha da FRENTE: **55,6 mm de largura** (27,8 mm para cada lado da linha) × **de 140,7 a 199,5 mm** de altura. Os 27,8 mm são em **linha reta**; pela fita, em volta do tubo, dariam ~29,4 mm. Marque **27,8 mm pela fita**: a janela sai um pouco menor e a lima acerta.",
     mostra: TUBO, contexto: false, chao: false,
     cam: { dir: [.25, -1, .12], alvo: [0, -50, ZT + 170], zoom: .3 },
     rotulos: [
@@ -372,7 +375,10 @@ export const PASSOS = [
       "Aparafuse **3 × M3 × 10** por fora (TRÁS, 30°, 150°). Aperte até encostar; não force (rosca no plástico).",
       "Deixe o **cabo do servo pendurado** para fora do fundo do tubo.",
     ],
-    atencao: ["Não monte com o tubo de cabeça para baixo: o chapéu só está encaixado por 2 pinos e cairia tubo abaixo."],
+    atencao: [
+      "Não monte com o tubo de cabeça para baixo: o chapéu só está encaixado por 2 pinos e cairia tubo abaixo.",
+      "Aqui são os **M3 × 10** (os mais compridos dos dois). Os M3 × 8 são para a bica (B.8).",
+    ],
     confira: ["Olhando pela janela da bica, a saída do piso está centrada nela.", "O cartucho não gira nem desce ao empurrar."],
   },
   {
@@ -391,6 +397,7 @@ export const PASSOS = [
       "Alinhe os 2 furos da moldura com os 2 furos do tubo (202,5 mm).",
       "Aparafuse **2 × M3 × 8**.",
     ],
+    atencao: ["Use **M3 × 8**, não M3 × 10: a ponta do M3 × 8 para 0,8 mm antes da face de dentro do anel. Um M3 × 10 passaria da parede e ficaria a 0,2 mm das pás do rotor."],
     confira: ["A bica não balança e a moldura cobre as bordas de cima e de baixo da janela.", "No teste G.5, com um punhado de ração no tubo, ela sai **só pela bica**."],
   },
 

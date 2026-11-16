@@ -107,7 +107,7 @@ Cortar, marcar e furar o tubo e abrir a janela da bica. Faz sujeira: fazer longe
 
 ![A.1 Cortar o tubo e marcar as 4 linhas](img/a-1.png)
 
-Todas as alturas deste módulo são medidas **a partir do fundo** do tubo (a ponta que vai no pedestal). Perímetro do tubo = **319 mm**.
+Só **duas peças** são parafusadas no tubo: o **piso do dosador** (P01), por **3 furos atrás**, e a **bica** (P04), por **2 furos na frente**, logo acima da janela. Esses 2 parafusos da bica atravessam a moldura e o tubo e rosqueiam no **anel** (P02), travando os dois. O servo vem preso no piso e o **chapéu não leva parafuso**: fica apoiado no escudo. Todas as alturas são medidas **a partir do fundo** do tubo (a ponta que vai no pedestal) e todas as distâncias em volta do tubo, **pela fita** (perímetro = **319 mm**).
 
 **Separe:**
 
@@ -129,7 +129,7 @@ Todas as alturas deste módulo são medidas **a partir do fundo** do tubo (a pon
 
 ✅ **Confira antes de seguir:**
 
-- [ ] De TRÁS até a linha de 30° e até a de 150° dá ~53 mm (as duas iguais).
+- [ ] De TRÁS até a linha de 30° e até a de 150° dá ~53 mm (as duas iguais); da DIREITA até a de 30° dá ~27 mm.
 - [ ] As linhas estão paralelas ao tubo (confira com uma régua encostada).
 
 ### A.2 Furar os 7 furos de Ø 3,5 mm
@@ -140,11 +140,11 @@ Todas as alturas deste módulo são medidas **a partir do fundo** do tubo (a pon
 
 Marque o centro de cada furo com um prego e uma batidinha (a broca não escorrega). Fure **perpendicular** ao tubo, devagar, sem atravessar a parede do outro lado.
 
-| Furo | Linha | Altura (do fundo) | Qtd |
-|---|---|---|---|
-| Pedestal | DIREITA e ESQUERDA | **7,5 mm** | 2 |
-| Cartucho | TRÁS, 30° e 150° | **190,5 mm** | 3 |
-| Moldura da bica | **14,6 mm** à direita e à esquerda da FRENTE | **202,5 mm** | 2 |
+| Furo | Linha | Altura (do fundo) | Qtd | Parafuso (depois) | Prende |
+|---|---|---|---|---|---|
+| Pedestal | DIREITA e ESQUERDA | **7,5 mm** | 2 | **M3 × 20** | pedestal: a ponta entra no furo como pino (G) |
+| Cartucho | TRÁS, 30° e 150° | **190,5 mm** | 3 | **M3 × 10** | piso P01 (B.7) |
+| Moldura da bica | **14,6 mm** pela fita, à direita e à esquerda da FRENTE | **202,5 mm** | 2 | **M3 × 8** | moldura → tubo → anel P02 (B.8) |
 
 **Ferramentas:** furadeira, broca 3,5 mm, prego e martelo, trena.
 
@@ -155,10 +155,12 @@ Marque o centro de cada furo com um prego e uma batidinha (a broca não escorreg
 
 > ⚠️ **Atenção**
 > - O furo do pedestal é **muito perto da borda** (7,5 mm): fure devagar para o PVC não rachar.
+> - Os furos da moldura ficam **acima** da janela (202,5 mm; a janela acaba em 199,5 mm). Não confunda com os 3 de trás, que ficam mais baixos (190,5 mm).
 
 ✅ **Confira antes de seguir:**
 
 - [ ] 7 furos, nas alturas da tabela (meça de novo depois de furar).
+- [ ] Atrás: 3 furos na mesma altura. Na frente: 2 furos lado a lado, ~29 mm um do outro, centrados na linha da FRENTE.
 
 ### A.3 Abrir a janela da bica
 
@@ -166,7 +168,7 @@ Marque o centro de cada furo com um prego e uma batidinha (a broca não escorreg
 
 ![A.3 Abrir a janela da bica](img/a-3.png)
 
-Retângulo centrado na linha da FRENTE: **55,6 mm de largura** (27,8 mm para cada lado da linha) × **de 140,7 a 199,5 mm** de altura.
+Retângulo centrado na linha da FRENTE: **55,6 mm de largura** (27,8 mm para cada lado da linha) × **de 140,7 a 199,5 mm** de altura. Os 27,8 mm são em **linha reta**; pela fita, em volta do tubo, dariam ~29,4 mm. Marque **27,8 mm pela fita**: a janela sai um pouco menor e a lima acerta.
 
 **Ferramentas:** furadeira + broca 8 mm, micro-retífica com disco de corte ou serra tico-tico, lima, óculos de proteção.
 
@@ -352,6 +354,7 @@ O cartucho entra **pelo fundo** do tubo e sobe até os 3 furos de trás. Faça c
 
 > ⚠️ **Atenção**
 > - Não monte com o tubo de cabeça para baixo: o chapéu só está encaixado por 2 pinos e cairia tubo abaixo.
+> - Aqui são os **M3 × 10** (os mais compridos dos dois). Os M3 × 8 são para a bica (B.8).
 
 ✅ **Confira antes de seguir:**
 
@@ -378,6 +381,9 @@ A bica entra **por fora**, pela janela, até encostar embaixo do piso. Os 2 para
 1. Passe a bica pela janela, inclinada para baixo, até a ponta de dentro encostar embaixo do piso.
 2. Alinhe os 2 furos da moldura com os 2 furos do tubo (202,5 mm).
 3. Aparafuse **2 × M3 × 8**.
+
+> ⚠️ **Atenção**
+> - Use **M3 × 8**, não M3 × 10: a ponta do M3 × 8 para 0,8 mm antes da face de dentro do anel. Um M3 × 10 passaria da parede e ficaria a 0,2 mm das pás do rotor.
 
 ✅ **Confira antes de seguir:**
 
